@@ -10,20 +10,23 @@ const Search = () => {
   useEffect(() => {
     const fetchPokemon = async () => {
       setLoading(true);
-      try {
-        const response = await axios(
-          `https://pokeapi.co/api/v2/pokedex/${searchInput}?limit=10`
-        );
-        // console.log(response.data.results);
-        setData(response.data.results);
-      } catch (err) {
-        setError(err.message); //err
-      }
+      await axios(`https://pokeapi.co/api/v2/pokedex/${searchInput}?limit=10`)
+        .then((response) => {
+          if (!response) throw setError(error);
+          setData(response.data.results);
+          setError(null);
+        })
+        .catch((err) => {
+          setError(err.message);
+          setData(null);
+        });
+      // console.log(response.data.results);
+
       setLoading(false);
     };
 
     fetchPokemon();
-  }, [searchInput]);
+  }, [searchInput, error]);
 
   return (
     <>
@@ -44,16 +47,15 @@ const Search = () => {
       >
         Search
       </button>
-
+      {loading && <h3 className="text-3xl font-medium">Loading... </h3>}
       <ul>
-        {loading ? (
-          <h3>Loading... </h3>
-        ) : (
-          data.length &&
+        {error && (
+          <h3 className="text-rose-600">{`Something went wrong! ${error}`}</h3>
+        )}
+        {data &&
           data.map((pokemon) => {
             return <li key={pokemon.id}>{pokemon.name}</li>;
-          })
-        )}
+          })}
       </ul>
     </>
   );
