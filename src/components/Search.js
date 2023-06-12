@@ -9,20 +9,26 @@ const Search = () => {
 
   useEffect(() => {
     const fetchPokemon = async () => {
-      setLoading(true);
-      await axios(`https://pokeapi.co/api/v2/pokedex/${searchInput}?limit=10`)
+      const id = setInterval(() => {
+        setLoading(true);
+      }, 3000);
+      //loader timer
+      const response = await axios(
+        `https://pokeapi.co/api/v2/pokedex/${searchInput}?limit=10`
+      )
         .then((response) => {
           if (!response) throw setError(error);
           setData(response.data.results);
           setError(null);
+          console.log(response.data.results);
         })
         .catch((err) => {
           setError(err.message);
           setData(null);
         });
-      // console.log(response.data.results);
-
-      setLoading(false);
+      return () => {
+        clearInterval(id);
+      };
     };
 
     fetchPokemon();
