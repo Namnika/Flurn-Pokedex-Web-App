@@ -6,12 +6,12 @@ export default function App() {
     <>
       <div
         className="
-      bg-cover
+      bg-cover antialiased
       relative  bg-slate-100 
       w-full h-screen "
       >
         <div className="container">
-          <div className="h-0  absolute">
+          <div className="h-0 absolute">
             <h1
               className="font-bold my-10 flex flex-wrap  mx-10 justify-start  
            text-5xl text-indigo-600"
@@ -22,7 +22,7 @@ export default function App() {
             <div className=" w-72 ">
               <label
                 htmlFor="search-pokemon"
-                className="text-2xl flex mx-10 text-slate-800 font-bold"
+                className="text-2xl flex mx-10 text-slate-800/90 font-bold"
               >
                 Which Pokemon do you want?
               </label>

@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { BiSearch } from "react-icons/bi";
+import { Button, Space } from "antd";
 
 const Search = () => {
   const [data, setData] = useState([]);
@@ -38,23 +40,39 @@ const Search = () => {
 
   return (
     <>
-      <div className="   mx-10 my-10 ">
+      <div className="mx-10 my-10  ">
+        <BiSearch
+          className="fill-slate-700 z-50 absolute my-4 
+        mx-6 w-7 h-7"
+        />
         <input
           type="search"
           placeholder="Search Pokemons, Movies, Ability etc."
           defaultValue={searchInput}
-          className="border-2 placeholder:text-slate-400 block w-96 rounded-full h-16 bg-gray-300 border-gray-200"
+          className="border-2 flex flex-wrap absolute focus:ring-2 focus:ring-indigo-300 focus:outline-none caret-slate-400
+          placeholder:text-slate-400 placeholder:font-medium block 
+          w-[26em] px-14 placeholder:text-base
+          rounded-full h-14 bg-gray-200 shadow-sm 
+          border-gray-200"
           id="search-pokemon"
         />
+        <Button
+          onClick={(e) => setSearchInput(e.target.value)}
+          className=" py-6 border-none drop-shadow-lg shadow-md shadow-indigo-200 focus:ring-1 focus:ring-indigo-300
+           px-14 rounded-md
+             -right-[33em]
+            bg-indigo-600/90 z-50"
+        >
+          <span
+            className="text-lg tracking-wide 
+            top-2.5 left-8 absolute  font-semibold
+              text-slate-50"
+          >
+            Search
+          </span>
+        </Button>
       </div>
 
-      <button
-        onClick={(e) => setSearchInput(e.target.value)}
-        type="submit"
-        className=" p-3 flex flex-wrap bg-indigo-200"
-      >
-        Search
-      </button>
       {loading && <h3 className="text-3xl font-medium">Loading... </h3>}
       <ul>
         {error && (
