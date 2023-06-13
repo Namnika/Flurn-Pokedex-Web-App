@@ -7,8 +7,8 @@ export default function App() {
       <div
         className="
       bg-cover antialiased
-      relative  bg-slate-100 
-      w-full h-screen "
+      relative rounded-b-3xl bg-slate-300 
+      w-full h-[43em] "
       >
         <div className="container">
           <div className="h-0 absolute">
@@ -22,7 +22,8 @@ export default function App() {
             <div className=" w-72 ">
               <label
                 htmlFor="search-pokemon"
-                className="text-2xl flex mx-10 text-slate-800/90 font-bold"
+                className="text-2xl flex mx-10
+                 text-slate-800/90 font-bold"
               >
                 Which Pokemon do you want?
               </label>
@@ -30,7 +31,7 @@ export default function App() {
             {/* search input */}
             <Search />
           </div>
-          <div className="absolute opacity-75 h-3/4 w-3/4 bottom-24 right-0 bg-cover bg-no-repeat bg-right bg-[url('https://o.remove.bg/downloads/8bf1017a-e81b-474a-87c1-d1c84555b8ff/Cute-Pikachu-Pokemon-Character-iphone-11-pro-removebg-preview.png')]"></div>
+          <div className="absolute opacity-60 h-3/4 w-[56%] bottom-24 z-40 right-0 bg-cover bg-no-repeat bg-right bg-[url('https://o.remove.bg/downloads/24524da7-7575-4d12-8073-c75d96b4547c/Cute-Pikachu-Pokemon-Character-iphone-11-pro-removebg-preview.png')]"></div>
         </div>
       </div>
     </>
