@@ -1,7 +1,13 @@
 // filter pokemons
-import { Button } from "@chakra-ui/react";
-import BeatLoader from "react-spinners/BeatLoader";
-
+import { Button, Heading } from "@chakra-ui/react";
+import {
+  Card,
+  Stack,
+  Image,
+  Text,
+  CardBody,
+  StackDivider
+} from "@chakra-ui/react";
 const Listing = ({ loader, error }) => {
   const filters = [
     {
@@ -44,12 +50,12 @@ const Listing = ({ loader, error }) => {
 
   return (
     <>
-      <div className="grid z-[150] relative my-44 mx-10 grid-cols-2 gap-4">
+      <div className="grid max-w-[28em] relative my-36 mx-10 grid-cols-2 gap-4">
         {filters.map((filter) => {
           return (
             <button
               className={`rounded-xl shadow-lg shadow-${filter.shadowColor} text-white
-         font-medium text-start px-6 text-lg 
+         font-medium text-start  px-6 text-lg 
          bg-${filter.color} py-4`}
             >
               {filter.name}
@@ -57,8 +63,8 @@ const Listing = ({ loader, error }) => {
           );
         })}
       </div>
-      <div className="mx-10 my-24 relative items-center flex  md:flex-wrap flex-wrap">
-        <h3 className="font-black text-xl  text-slate-800/90 ">Pokemon News</h3>
+      <div className="mx-10 mt-72 relative items-center flex  md:flex-wrap flex-wrap">
+        <h3 className="font-black text-xl  text-slate-900/90 ">Pokemon News</h3>
         <Button
           className=" absolute ml-36 md:-right-[30em] -right-32"
           colorScheme="purple"
@@ -66,17 +72,38 @@ const Listing = ({ loader, error }) => {
         >
           View All
         </Button>
-        <div className="relative md:flex-wrap w-full py-20 ">
-          {loader && (
-            <BeatLoader
-              className="absolute left-3 "
-              size={15}
-              color="#ADA2FF"
+
+        {/* listing news */}
+        <div>
+          <Card
+            direction={{ base: "column", sm: "row" }}
+            overflow="hidden"
+            variant='none'
+            mt={5}
+          >
+            <Stack divider={<StackDivider />} spacing="5">
+              <CardBody>
+                <Heading
+                  className="text-slate-800/90"
+                  fontWeight="extrabold"
+                  size="md"
+                >
+                  The perfect latte
+                </Heading>
+                <Text py="2" className="text-slate-500/80" fontSize="sm">
+                  Caffè latte is a coffee beverage of Italian origin made with
+                  espresso and steamed milk.
+                </Text>
+              </CardBody>
+            </Stack>
+            <Image
+              borderRadius="10px"
+              objectFit="cover"
+              maxW={{ base: "100%", sm: "200px" }}
+              src="https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60"
+              alt="Caffe Latte"
             />
-          )}
-          {error && (
-            <h3 className="absolute left-3 font-medium items-center text-center text-rose-600">{`Something went wrong! ${error}`}</h3>
-          )}
+          </Card>
         </div>
       </div>
     </>

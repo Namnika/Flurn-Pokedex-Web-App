@@ -15,11 +15,11 @@ const Search = () => {
       setLoading(true);
       const id = setInterval(() => {
         setLoading(false);
-      }, 3500);
+      }, 5000);
       //loader timer
 
       const response = await axios(
-        `https://pokeapi.co/api/v/pokedex/${searchInput}?limit=10`
+        `https://pokeapi.co/api/v2/pokedex/${searchInput}?limit=10`
       )
         .then((response) => {
           if (!response) throw setError(error);
@@ -60,16 +60,36 @@ const Search = () => {
           id="search-pokemon"
         />
       </div>
+      {searchInput ? (
+        <div className="text-slate-500/70  overflow-y-scroll absolute z-50 backdrop-blur-md bg-white/30 mt-28 mx-16 h-64 w-[25em] bg-white ">
+          {loading && (
+            <BeatLoader
+              className="absolute top-32 left-44 md:left-80  "
+              size={15}
+              color="#4338ca"
+            />
+          )}
+          {!loading && error && (
+            <h3 className="absolute md:left-44 left-4 w-5/6 font-medium items-center text-center text-rose-600">{`Something went wrong! ${error}`}</h3>
+          )}
 
+          <ul className="mx-10">
+            {!loading && data && data.length > 0
+              ? data.map((pokemon) => {
+                  return (
+                    <li
+                      className="cursor-pointer hover:text-indigo-800"
+                      key={pokemon.id}
+                    >
+                      {pokemon.name}
+                    </li>
+                  );
+                })
+              : null}
+          </ul>
+        </div>
+      ) : null}
       <Listing loader={loading} error={error} />
-
-      <ul>
-        {/* {!loading && data && data.length > 0
-          ? data.map((pokemon) => {
-              return <li key={pokemon.id}>{pokemon.url}</li>;
-            })
-          : "no pokemon"} */}
-      </ul>
     </>
   );
 };
