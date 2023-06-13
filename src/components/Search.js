@@ -9,10 +9,12 @@ const Search = () => {
 
   useEffect(() => {
     const fetchPokemon = async () => {
+      setLoading(true);
       const id = setInterval(() => {
-        setLoading(true);
+        setLoading(false);
       }, 3000);
       //loader timer
+
       const response = await axios(
         `https://pokeapi.co/api/v2/pokedex/${searchInput}?limit=10`
       )
@@ -36,16 +38,16 @@ const Search = () => {
 
   return (
     <>
-      <h1 className="font-medium text-3xl text-indigo-600">Pokédex</h1>
-      <label htmlFor="search-pokemon" className="text-lg">
-        Which Pokemon do you want?
-      </label>
-      <input
-        type="search"
-        defaultValue={searchInput}
-        className="border-2 border-slate-600"
-        id="search-pokemon"
-      />
+      <div className="   mx-10 my-10 ">
+        <input
+          type="search"
+          placeholder="Search Pokemons, Movies, Ability etc."
+          defaultValue={searchInput}
+          className="border-2 placeholder:text-slate-400 block w-96 rounded-full h-16 bg-gray-300 border-gray-200"
+          id="search-pokemon"
+        />
+      </div>
+
       <button
         onClick={(e) => setSearchInput(e.target.value)}
         type="submit"
@@ -58,10 +60,11 @@ const Search = () => {
         {error && (
           <h3 className="text-rose-600">{`Something went wrong! ${error}`}</h3>
         )}
-        {data &&
-          data.map((pokemon) => {
-            return <li key={pokemon.id}>{pokemon.name}</li>;
-          })}
+        {!loading && data && data.length > 0
+          ? data.map((pokemon) => {
+              return <li key={pokemon.id}>{pokemon.url}</li>;
+            })
+          : "no pokemon"}
       </ul>
     </>
   );
