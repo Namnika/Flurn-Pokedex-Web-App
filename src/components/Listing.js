@@ -1,8 +1,8 @@
 // filter pokemons
-import { Button, filter } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 import BeatLoader from "react-spinners/BeatLoader";
 
-const Listing = () => {
+const Listing = ({ loader, error }) => {
   const filters = [
     {
       id: 1,
@@ -31,7 +31,7 @@ const Listing = () => {
     {
       id: 5,
       color: "amber-500",
-      shadowColor: "yellow-500",
+      shadowColor: "[#FFC26F]",
       name: "Locations"
     },
     {
@@ -57,15 +57,27 @@ const Listing = () => {
           );
         })}
       </div>
-      <div className="mx-10 my-24 relative items-center flex  md:flex-wrap lg:flex-nowrap">
-        <h3 className="font-black text-xl  text-slate-800/90">Pokemon News</h3>
+      <div className="mx-10 my-24 relative items-center flex  md:flex-wrap flex-wrap">
+        <h3 className="font-black text-xl  text-slate-800/90 ">Pokemon News</h3>
         <Button
-          className=" absolute ml-36 md:-right-[30em]"
+          className=" absolute ml-36 md:-right-[30em] -right-32"
           colorScheme="purple"
           variant="ghost"
         >
           View All
         </Button>
+        <div className="relative md:flex-wrap w-full py-20 ">
+          {loader && (
+            <BeatLoader
+              className="absolute left-3 "
+              size={15}
+              color="#ADA2FF"
+            />
+          )}
+          {error && (
+            <h3 className="absolute left-3 font-medium items-center text-center text-rose-600">{`Something went wrong! ${error}`}</h3>
+          )}
+        </div>
       </div>
     </>
   );

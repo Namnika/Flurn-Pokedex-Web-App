@@ -61,18 +61,8 @@ const Search = () => {
         />
       </div>
 
-      <Listing />
+      <Listing loader={loading} error={error} />
 
-      {loading && (
-        <BeatLoader
-          className="absolute inset-y-96 inset-x-20 "
-          size={15}
-          color="#ADA2FF"
-        />
-      )}
-      {error && (
-        <h3 className="relative font-medium top-26 mx-10 text-center w-68 text-rose-600">{`Something went wrong! ${error}`}</h3>
-      )}
       <ul>
         {/* {!loading && data && data.length > 0
           ? data.map((pokemon) => {
