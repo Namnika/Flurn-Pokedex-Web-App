@@ -19,14 +19,14 @@ const Search = () => {
       //loader timer
 
       const response = await axios(
-        `https://pokeapi.co/api/v2/pokedex/${searchInput}?limit=10`
+        `https://pokeapi.co/api/v2/pokemon-form/${searchInput}/?limit=10`
       )
         .then((response) => {
           if (!response) throw setError(error);
           setSearchInput("");
-          setData(response.data.results);
+          setData(response.data);
           setError(null);
-          // console.log(response.data.results);
+          console.log(response);
         })
         .catch((err) => {
           setError(err.message);

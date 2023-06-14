@@ -8,42 +8,50 @@ import {
   CardBody,
   StackDivider
 } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
+
 const Listing = ({ loader, error }) => {
   const filters = [
     {
       id: 1,
       color: "teal-500",
       shadowColor: "teal-400",
+      url: "/pokemon-listing/pokédex",
       name: "Pokédex"
     },
     {
       id: 2,
       color: "rose-500",
       shadowColor: "rose-400",
+      url: "/pokemon-listing/movies",
       name: "Movies"
     },
     {
       id: 3,
       color: "indigo-500",
       shadowColor: "indigo-400",
+      url: "/pokemon-listing/abilities",
       name: "Abilities"
     },
     {
       id: 4,
       color: "sky-500",
       shadowColor: "sky-400",
+      url: "/pokemon-listing/items",
       name: "Items"
     },
     {
       id: 5,
       color: "amber-500",
       shadowColor: "[#FFC26F]",
+      url: "/pokemon-listing/locations",
       name: "Locations"
     },
     {
       id: 6,
       color: "amber-900",
       shadowColor: "amber-800",
+      url: "/pokemon-listing/habitat",
       name: "Habitat"
     }
   ];
@@ -53,13 +61,15 @@ const Listing = ({ loader, error }) => {
       <div className="grid max-w-[28em] relative my-36 mx-10 grid-cols-2 gap-4">
         {filters.map((filter) => {
           return (
-            <button
-              className={`rounded-xl shadow-lg shadow-${filter.shadowColor} text-white
+            <Link to={filter.url}>
+              <button
+                className={`rounded-xl shadow-lg shadow-${filter.shadowColor} text-white
          font-medium text-start  px-6 text-lg 
          bg-${filter.color} py-4`}
-            >
-              {filter.name}
-            </button>
+              >
+                {filter.name}
+              </button>
+            </Link>
           );
         })}
       </div>
@@ -78,7 +88,7 @@ const Listing = ({ loader, error }) => {
           <Card
             direction={{ base: "column", sm: "row" }}
             overflow="hidden"
-            variant='none'
+            variant="none"
             mt={5}
           >
             <Stack divider={<StackDivider />} spacing="5">
@@ -111,3 +121,7 @@ const Listing = ({ loader, error }) => {
 };
 
 export default Listing;
+
+export function PokemonListing() {
+  return <>Listing Page</>;
+}
