@@ -1,7 +1,7 @@
 // searching and filtering pokemons
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { BiSearch } from "react-icons/bs";
+import { BiSearch } from "react-icons/bi";
 import BeatLoader from "react-spinners/BeatLoader";
 import { Button, Heading } from "@chakra-ui/react";
 import {
@@ -12,7 +12,7 @@ import {
   CardBody,
   StackDivider
 } from "@chakra-ui/react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, } from "react-router-dom";
 
 const Search = () => {
   const [data, setData] = useState([]);
