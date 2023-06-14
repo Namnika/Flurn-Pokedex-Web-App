@@ -1,8 +1,8 @@
 import Search from "./components/Search";
 import "./index.css";
-import { Link, Flex, Spacer } from "@chakra-ui/react";
+import { Flex, Spacer } from "@chakra-ui/react";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
-import { Link as ReachLink } from "@reach/router";
+import { Link } from "react-router-dom";
 
 export default function App() {
   return (
@@ -24,11 +24,12 @@ export default function App() {
               </h1>
               <Spacer />
               <Link
-                className="font-bold"
+                className="font-bold hover:decoration-2 hover:underline"
                 color="#09090b"
                 alignItems="flex-end"
-                as={ReachLink}
                 to="/bookmarks"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 BookMarks <ExternalLinkIcon mx="2px" />
               </Link>

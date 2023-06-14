@@ -67,7 +67,7 @@ export default function Details() {
             alphabet. Owing to its existence, Chakra was created.
           </Text>
           <Spacer mt={75} />
-          <Tabs className="text-gray-400  font-semibold">
+          <Tabs className="text-gray-400 md:mt-44 mt-38 font-semibold">
             <TabList>
               <Tab
                 _selected={{ color: "black", borderBottomColor: "black" }}
