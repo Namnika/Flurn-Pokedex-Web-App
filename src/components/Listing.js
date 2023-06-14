@@ -14,15 +14,12 @@ const Listing = () => {
           </Heading>
           {/* routing to go back */}
           <Link to="/">
-            <IoChevronBack
-              size={30}
-              className="text-gray-400  hover:text-gray-700"
-            />
+            <IoChevronBack size={30} className="text-slate-800/90" />
           </Link>
 
           <div
             className="mt-24 grid text-start
-          gap-x-8 grid-flow-col gap-y-4 grid-cols-5"
+            gap-5 grid-flow-col grid-cols-3"
           >
             {/* mapping all pokemons */}
             <Link to="/details/pokemon-name">

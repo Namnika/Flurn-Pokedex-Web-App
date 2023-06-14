@@ -23,7 +23,7 @@ export default function Details() {
         className="bg-cover opacity-95 bg-no-repeat bg-blend-darken bg-center drop-shadow-2xl bg-fixed 
       h-96 rounded-b-3xl w-full bg-[url('https://images.unsplash.com/photo-1642534270237-ae57b321c5bc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fHBva2Vtb258ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=400&q=60')]"
       >
-        <Container maxW="container.md" pt={10}>
+        <Container maxW="container.md" px={10} pt={10}>
           <Flex>
             <Heading
               className="text-white/90 "
@@ -51,7 +51,7 @@ export default function Details() {
           <Flex mt={-36} minWidth="max-content" alignItems="center" gap="2">
             {/* routing should be check once */}
             <Link to="/pokemon-listing">
-              <IoChevronBack size={30} className=" text-white/90 " />
+              <IoChevronBack size={30} className="text-white/90" />
             </Link>
             <Spacer />
             <button>
