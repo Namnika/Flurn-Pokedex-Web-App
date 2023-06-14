@@ -9,7 +9,7 @@ export default function App() {
     <>
       <div
         className="
-      bg-cover antialiased
+      bg-cover antialiased drop-shadow-2xl
       relative rounded-b-3xl bg-slate-300 
       w-full h-[43em] "
       >
