@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import App from "./App";
 import Listing from "./components/Listing";
+import Details from "./components/Details";
 import BookmarkScreen from "./components/BookmarkScreen";
 
 const rootElement = document.getElementById("root");
@@ -21,6 +22,7 @@ root.render(
         <Routes>
           <Route path="/" element={<App />} />
           <Route path="/pokemon-listing/:name" element={<Listing />} />
+          <Route path="/details/:name" element={<Details />} />
           <Route path="/bookmarks" element={<BookmarkScreen />} />
         </Routes>
       </Router>

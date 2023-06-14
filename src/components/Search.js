@@ -1,7 +1,7 @@
 // searching and filtering pokemons
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { BiSearch } from "react-icons/bi";
+import { BiSearch } from "react-icons/bs";
 import BeatLoader from "react-spinners/BeatLoader";
 import { Button, Heading } from "@chakra-ui/react";
 import {
@@ -115,7 +115,7 @@ const Search = () => {
         />
       </div>
       {searchInput ? (
-        <div className="text-slate-500/70  overflow-y-scroll absolute z-50 backdrop-blur-md bg-white/30 mt-28 mx-16 h-64 w-[25em] bg-white ">
+        <div className="text-slate-500/70 overscroll-contain absolute z-50 backdrop-blur-md bg-white/30 mt-28 mx-16 h-64 w-[25em] bg-white ">
           {loading && (
             <BeatLoader
               className="absolute top-32 left-44 md:left-80  "
