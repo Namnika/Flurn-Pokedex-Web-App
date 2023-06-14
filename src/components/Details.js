@@ -75,8 +75,18 @@ export default function Details() {
               >
                 One
               </Tab>
-              <Tab className="hover:text-black">Two</Tab>
-              <Tab className="hover:text-black">Three</Tab>
+              <Tab
+                _selected={{ color: "black", borderBottomColor: "black" }}
+                className="hover:text-black"
+              >
+                Two
+              </Tab>
+              <Tab
+                _selected={{ color: "black", borderBottomColor: "black" }}
+                className="hover:text-black"
+              >
+                Three
+              </Tab>
             </TabList>
 
             <TabPanels>
