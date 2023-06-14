@@ -1,6 +1,6 @@
 import Search from "./components/Search";
 import "./index.css";
-import { Link } from "@chakra-ui/react";
+import { Link, Flex, Spacer } from "@chakra-ui/react";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
 import { Link as ReachLink } from "@reach/router";
 
@@ -14,17 +14,25 @@ export default function App() {
       w-full h-[43em] "
       >
         <div className="container">
-          <Link alignItems="flex-end" as={ReachLink} to="/bookmarks">
-            BookMarks <ExternalLinkIcon mx="2px" />
-          </Link>
           <div className="h-0 absolute">
-            <h1
-              className="font-bold my-10 flex flex-wrap  mx-10 justify-start  
+            <Flex minWidth="max-content" align="center">
+              <h1
+                className="font-bold my-10 flex flex-wrap  mx-10 justify-start  
            text-5xl text-indigo-600"
-            >
-              Pokédex
-            </h1>
-
+              >
+                Pokédex
+              </h1>
+              <Spacer />
+              <Link
+                className="font-bold"
+                color="#09090b"
+                alignItems="flex-end"
+                as={ReachLink}
+                to="/bookmarks"
+              >
+                BookMarks <ExternalLinkIcon mx="2px" />
+              </Link>
+            </Flex>
             {/* label with search input */}
             <div className=" w-72 ">
               <label
