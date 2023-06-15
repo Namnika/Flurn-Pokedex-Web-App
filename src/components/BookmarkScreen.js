@@ -14,7 +14,7 @@ const BookmarkScreen = () => {
             </Link>
             <Spacer />
             <Heading
-              className="text-slate-800/90 "
+              className="text-slate-800/90"
               align="end"
               mt={14}
               as="h3"

@@ -12,42 +12,120 @@ import {
   CardBody,
   StackDivider
 } from "@chakra-ui/react";
-import { Link, } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Search = () => {
-  const [data, setData] = useState([]);
+  const allQueries = [
+    "ability",
+    "characteristic",
+    "evolution-chain",
+    "generation",
+    "growth-rate",
+    "pokemon",
+    "pokedex",
+    "pokemon-species",
+    "pokemon-shape",
+    "pokemon-habitat",
+    "version",
+    "pokemon-color",
+    "pokemon-form",
+    "version-group",
+    "nature",
+    "location"
+  ];
+
+  const [pokeData, setPokeData] = useState(allQueries);
+  const [allData, setAllData] = useState({
+    abilities: [],
+    characteristic: [],
+    evolutionchain: [],
+    generation: [],
+    growthrate: [],
+    pokemon: [],
+    pokedex: [],
+    pokemonspecies: [],
+    pokemonshape: [],
+    pokemonhabitat: [],
+    version: [],
+    pokemoncolor: [],
+    pokemonform: [],
+    versiongroup: [],
+    nature: [],
+    location: []
+  });
+
   const [searchInput, setSearchInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState({});
 
+  const fetchPokemon = async () => {
+    try {
+      const response = await Promise.all(
+        pokeData.map((endpoint) =>
+          axios
+            .get("https://pokeapi.co/api/v2/" + endpoint)
+            .then(
+              ([
+                { data: ability },
+                { data: characteristic },
+                { data: evolutionchain },
+                { data: generation },
+                { data: growthrate },
+                { data: pokemon },
+                { data: pokedex },
+                { data: pokemonspecies },
+                { data: pokemonshape },
+                { data: pokemonhabitat },
+                { data: version },
+                { data: pokemoncolor },
+                { data: pokemonform },
+                { data: versiongroup },
+                { data: nature },
+                { data: location }
+              ]) => {
+                setAllData({
+                  abilities: ability,
+                  characteristic: characteristic,
+                  evolutionchain: evolutionchain,
+                  generation: generation,
+                  growthrate: growthrate,
+                  pokemon: pokemon,
+                  pokedex: pokedex,
+                  pokemonspecies: pokemonspecies,
+                  pokemonshape: pokemonshape,
+                  pokemonhabitat: pokemonhabitat,
+                  version: version,
+                  pokemoncolor: pokemoncolor,
+                  pokemonform: pokemonform,
+                  versiongroup: versiongroup,
+                  nature: nature,
+                  location: location
+                });
+              }
+            )
+        )
+      );
+      if (!response) throw setError(error);
+      setSearchInput("");
+      setPokeData(response.data);
+      setError(null);
+      console.log(response);
+    } catch (err) {
+      setError(err.message);
+      setPokeData(null);
+    }
+  };
+
   useEffect(() => {
-    const fetchPokemon = async () => {
-      setLoading(true);
-      const id = setInterval(() => {
-        setLoading(false);
-      }, 5000);
-
-      const response = await axios(
-        `https://pokeapi.co/api/v2/pokemon-form/${searchInput}/?limit=10`
-      )
-        .then((response) => {
-          if (!response) throw setError(error);
-          setSearchInput("");
-          setData(response.data);
-          setError(null);
-          console.log(response);
-        })
-        .catch((err) => {
-          setError(err.message);
-          setData(null);
-        });
-      return () => {
-        clearInterval(id);
-      };
-    };
-
+    setLoading(true);
     fetchPokemon();
-  }, [searchInput, error]);
+    const id = setInterval(() => {
+      setLoading(false);
+    }, 5000);
+    return () => {
+      clearInterval(id);
+    };
+  }, []);
 
   const filtersButton = [
     {
@@ -128,8 +206,8 @@ const Search = () => {
           )}
 
           <ul className="mx-10">
-            {!loading && data && data.length > 0
-              ? data.map((pokemon) => {
+            {!loading && pokeName && pokeName.length > 0
+              ? pokeName.map((pokemon) => {
                   return (
                     <li
                       className="cursor-pointer hover:text-indigo-800"
