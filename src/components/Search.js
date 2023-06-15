@@ -15,113 +15,127 @@ import {
 import { Link } from "react-router-dom";
 
 const Search = () => {
-  const allQueries = [
-    "ability",
-    "characteristic",
-    "evolution-chain",
-    "generation",
-    "growth-rate",
-    "pokemon",
-    "pokedex",
-    "pokemon-species",
-    "pokemon-shape",
-    "pokemon-habitat",
-    "version",
-    "pokemon-color",
-    "pokemon-form",
-    "version-group",
-    "nature",
-    "location"
-  ];
-
-  const [pokeData, setPokeData] = useState(allQueries);
-  const [allData, setAllData] = useState({
+  const [state, setState] = useState({
     abilities: [],
-    characteristic: [],
-    evolutionchain: [],
-    generation: [],
-    growthrate: [],
+    characteristics: [],
+    evolutionchains: [],
+    generations: [],
+    growthrates: [],
     pokemon: [],
     pokedex: [],
     pokemonspecies: [],
-    pokemonshape: [],
-    pokemonhabitat: [],
-    version: [],
-    pokemoncolor: [],
-    pokemonform: [],
-    versiongroup: [],
-    nature: [],
-    location: []
+    pokemonshapes: [],
+    pokemonhabitats: [],
+    versions: [],
+    pokemoncolors: [],
+    pokemonforms: [],
+    versiongroups: [],
+    natures: [],
+    locations: []
   });
-
+  const [data, setData] = useState([]);
   const [searchInput, setSearchInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState({});
 
+  const ec = "evolution chain".replace(/\s+/g, "-");
+  const gr = "growth rate".replace(/\s+/g, "-");
+  const psp = "pokemon species".replace(/\s+/g, "-");
+  const psh = "pokemon shape".replace(/\s+/g, "-");
+  const ph = "pokemon habitat".replace(/\s+/g, "-");
+  const pf = "pokemon form".replace(/\s+/g, "-");
+  const pc = "pokemon color".replace(/\s+/g, "-");
+  const vg = "version group".replace(/\s+/g, "-");
+
+  const url = "https://pokeapi.co/api/v2/";
+
   const fetchPokemon = async () => {
+    const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
     try {
-      const response = await Promise.all(
-        pokeData.map((endpoint) =>
-          axios
-            .get("https://pokeapi.co/api/v2/" + endpoint)
-            .then(
-              ([
-                { data: ability },
-                { data: characteristic },
-                { data: evolutionchain },
-                { data: generation },
-                { data: growthrate },
-                { data: pokemon },
-                { data: pokedex },
-                { data: pokemonspecies },
-                { data: pokemonshape },
-                { data: pokemonhabitat },
-                { data: version },
-                { data: pokemoncolor },
-                { data: pokemonform },
-                { data: versiongroup },
-                { data: nature },
-                { data: location }
-              ]) => {
-                setAllData({
-                  abilities: ability,
-                  characteristic: characteristic,
-                  evolutionchain: evolutionchain,
-                  generation: generation,
-                  growthrate: growthrate,
-                  pokemon: pokemon,
-                  pokedex: pokedex,
-                  pokemonspecies: pokemonspecies,
-                  pokemonshape: pokemonshape,
-                  pokemonhabitat: pokemonhabitat,
-                  version: version,
-                  pokemoncolor: pokemoncolor,
-                  pokemonform: pokemonform,
-                  versiongroup: versiongroup,
-                  nature: nature,
-                  location: location
-                });
-              }
-            )
-        )
-      );
-      if (!response) throw setError(error);
-      setSearchInput("");
-      setPokeData(response.data);
-      setError(null);
-      console.log(response);
+      await sleep(7000);
+      const res = await axios(url);
+      setData(res.data);
+
+      await sleep(7000);
+      const ability = await axios(data.ability);
+      setState({ abilities: ability.data.results });
+
+      // await sleep(7000);
+      // const characteristic = await axios(data.characteristic);
+      // setState({ characteristics: characteristic.data.results });
+
+      // await sleep(7000);
+      // const evolutionchain = await axios(data[ec]);
+      // setState({ evolutionchains: evolutionchain.data.results });
+
+      // await sleep(7000);
+      // const generation = await axios(data.generation);
+      // setState({ generations: generation.data.results });
+
+      // await sleep(7000);
+      // const growthrate = await axios(data[gr]);
+      // setState({ growthrates: growthrate.data.results });
+
+      // await sleep(7000);
+      const pokemon = await axios(data.pokemon);
+      setState({ pokemon:  pokemon.data.results });
+
+      // await sleep(7000);
+      // const pokedex = await axios(data.pokedex);
+      // setState({ pokedex: pokedex.data.results });
+
+      // await sleep(7000);
+      // const pokemonspecies = await axios(data[psp]);
+      // setState({ pokemonspecies: pokemonspecies.data.results });
+
+      // await sleep(7000);
+      // const pokemonshape = await axios(data[psh]);
+      // setState({ pokemonshapes: pokemonshape.data.results });
+
+      // await sleep(7000);
+      // const pokemonhabitat = await axios(data[ph]);
+      // setState({ pokemonhabitats: pokemonhabitat.data.results });
+
+      // await sleep(7000);
+      // const pokemonform = await axios(data[pf]);
+      // setState({ pokemonforms: pokemonform.data.results });
+
+      // await sleep(7000);
+      // const pokemoncolor = await axios(data[pc]);
+      // setState({ pokemoncolors: pokemoncolor.data.results });
+
+      // await sleep(7000);
+      // const version = await axios(data.version);
+      // setState({ versions: version.data.results });
+
+      // await sleep(7000);
+      // const location = await axios(data.location);
+      // setState({ locations: location.data.results });
+
+      // await sleep(7000);
+      // const versiongroup = await axios(data[vg]);
+      // setState({ versiongroups: versiongroup.data.results });
+
+      // await sleep(7000);
+      // const nature = await axios(data.nature);
+      // setState({ natures: nature.data.results });
+
+
     } catch (err) {
-      setError(err.message);
-      setPokeData(null);
+      setError(err.message.response);
+      setError(error);
+      setState(null);
     }
   };
 
+//  console.log(state.pokemon)
+
   useEffect(() => {
-    setLoading(true);
     fetchPokemon();
+    setLoading(true);
     const id = setInterval(() => {
       setLoading(false);
-    }, 5000);
+    }, 7000);
     return () => {
       clearInterval(id);
     };
@@ -193,7 +207,9 @@ const Search = () => {
         />
       </div>
       {searchInput ? (
-        <div className="text-slate-500/70 overscroll-contain absolute z-50 backdrop-blur-md bg-white/30 mt-28 mx-16 h-64 w-[25em] bg-white ">
+        <div className="text-slate-500/70 overscroll-y-scroll absolute z-50 backdrop-blur-md bg-white/30 mt-28 mx-16 h-64 w-[25em] bg-white ">
+          {/* loader */}
+
           {loading && (
             <BeatLoader
               className="absolute top-32 left-44 md:left-80  "
@@ -201,17 +217,19 @@ const Search = () => {
               color="#4338ca"
             />
           )}
+
+          {/* error */}
           {!loading && error && (
             <h3 className="absolute md:left-44 left-4 w-5/6 font-medium items-center text-center text-rose-600">{`Something went wrong! ${error}`}</h3>
           )}
 
           <ul className="mx-10">
-            {!loading && pokeName && pokeName.length > 0
-              ? pokeName.map((pokemon) => {
+            {!loading  && state.pokemon && state.pokemon.length > 0
+              ? state.pokemon.map((pokemon, index) => {
                   return (
                     <li
                       className="cursor-pointer hover:text-indigo-800"
-                      key={pokemon.id}
+                      key={index}
                     >
                       {pokemon.name}
                     </li>
@@ -219,6 +237,8 @@ const Search = () => {
                 })
               : null}
           </ul>
+
+
         </div>
       ) : null}
       <div className="grid max-w-[28em] relative my-36 mx-10 grid-cols-2 gap-4">
