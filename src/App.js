@@ -1,10 +1,125 @@
 import Search from "./components/Search";
 import "./index.css";
+import axios from "axios";
+import { useState, useEffect } from "react";
 import { Flex, Spacer } from "@chakra-ui/react";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
 
 export default function App() {
+  const [state, setState] = useState({
+    abilities: [],
+    characteristics: [],
+    evolutionchains: [],
+    generations: [],
+    growthrates: [],
+    pokemon: [],
+    pokedex: [],
+    pokemonspecies: [],
+    pokemonshapes: [],
+    pokemonhabitats: [],
+    versions: [],
+    pokemoncolors: [],
+    pokemonforms: [],
+    versiongroups: [],
+    natures: [],
+    locations: []
+  });
+
+  const [data, setData] = useState([]);
+  const [error, setError] = useState({});
+
+  const ec = "evolution chain".replace(/\s+/g, "-");
+  const gr = "growth rate".replace(/\s+/g, "-");
+  const psp = "pokemon species".replace(/\s+/g, "-");
+  const psh = "pokemon shape".replace(/\s+/g, "-");
+  const ph = "pokemon habitat".replace(/\s+/g, "-");
+  const pf = "pokemon form".replace(/\s+/g, "-");
+  const pc = "pokemon color".replace(/\s+/g, "-");
+  const vg = "version group".replace(/\s+/g, "-");
+
+  const fetchPokemon = async () => {
+    const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+    try {
+      await sleep(7000);
+      const res = await axios("https://pokeapi.co/api/v2/");
+
+      // await sleep(7000);
+      // const ability = await axios(data.ability);
+      // setState({ abilities: ability.data.results });
+
+      // await sleep(7000);
+      // const characteristic = await axios(data.characteristic);
+      // setState({ characteristics: characteristic.data.results });
+
+      // await sleep(7000);
+      // const evolutionchain = await axios(data[ec]);
+      // setState({ evolutionchains: evolutionchain.data.results });
+
+      // await sleep(7000);
+      // const generation = await axios(data.generation);
+      // setState({ generations: generation.data.results });
+
+      // await sleep(7000);
+      // const growthrate = await axios(data[gr]);
+      // setState({ growthrates: growthrate.data.results });
+
+      // await sleep(7000);
+      const pokemon = await axios(res.data.pokemon);
+      setState({ pokemon: pokemon.data.results });
+
+      // await sleep(7000);
+      // const pokedex = await axios(data.pokedex);
+      // setState({ pokedex: pokedex.data.results });
+
+      // await sleep(7000);
+      // const pokemonspecies = await axios(data[psp]);
+      // setState({ pokemonspecies: pokemonspecies.data.results });
+
+      // await sleep(7000);
+      // const pokemonshape = await axios(data[psh]);
+      // setState({ pokemonshapes: pokemonshape.data.results });
+
+      // await sleep(7000);
+      // const pokemonhabitat = await axios(data[ph]);
+      // setState({ pokemonhabitats: pokemonhabitat.data.results });
+
+      // await sleep(7000);
+      // const pokemonform = await axios(data[pf]);
+      // setState({ pokemonforms: pokemonform.data.results });
+
+      // await sleep(7000);
+      // const pokemoncolor = await axios(data[pc]);
+      // setState({ pokemoncolors: pokemoncolor.data.results });
+
+      // await sleep(7000);
+      // const version = await axios(data.version);
+      // setState({ versions: version.data.results });
+
+      // await sleep(7000);
+      // const location = await axios(data.location);
+      // setState({ locations: location.data.results });
+
+      // await sleep(7000);
+      // const versiongroup = await axios(data[vg]);
+      // setState({ versiongroups: versiongroup.data.results });
+
+      // await sleep(7000);
+      // const nature = await axios(data.nature);
+      // setState({ natures: nature.data.results });
+    } catch (err) {
+      setError(err.message.response);
+      setError(error);
+      setState(null);
+    }
+  };
+
+  console.log(state.pokemon);
+
+  useEffect(() => {
+    fetchPokemon();
+  }, []);
+
   return (
     <>
       <div
@@ -34,7 +149,7 @@ export default function App() {
                 BookMarks <ExternalLinkIcon mx="2px" />
               </Link>
             </Flex>
-            {/* label with search input */}
+
             <div className=" w-72 ">
               <label
                 htmlFor="search-pokemon"
@@ -44,8 +159,7 @@ export default function App() {
                 Which Pokemon do you want?
               </label>
             </div>
-            {/* search input */}
-            <Search />
+            <Search pokemonNames={state.pokemon} error={error} />
           </div>
           <div className="absolute opacity-60 h-3/4 w-[56%] bottom-24 z-40 right-0 bg-cover bg-no-repeat bg-right bg-[url('https://o.remove.bg/downloads/24524da7-7575-4d12-8073-c75d96b4547c/Cute-Pikachu-Pokemon-Character-iphone-11-pro-removebg-preview.png')]"></div>
         </div>
