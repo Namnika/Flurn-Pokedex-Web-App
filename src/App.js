@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 
 export default function App() {
   const [state, setState] = useState({
+    includes: false,
     abilities: [],
     characteristics: [],
     evolutionchains: [],
@@ -26,7 +27,7 @@ export default function App() {
     locations: []
   });
 
-  const [data, setData] = useState([]);
+  const [pokemon, setPokemon] = useState();
   const [error, setError] = useState({});
 
   const ec = "evolution chain".replace(/\s+/g, "-");
@@ -65,9 +66,11 @@ export default function App() {
       // setState({ growthrates: growthrate.data.results });
 
       // await sleep(7000);
+      // should be res.data...
       const pokemon = await axios(res.data.pokemon);
       setState({ pokemon: pokemon.data.results });
-
+      localStorage.setItem("pokemon", JSON.stringify(pokemon.data.results));
+      setPokemon(pokemon.data.results);
       // await sleep(7000);
       // const pokedex = await axios(data.pokedex);
       // setState({ pokedex: pokedex.data.results });
@@ -107,10 +110,11 @@ export default function App() {
       // await sleep(7000);
       // const nature = await axios(data.nature);
       // setState({ natures: nature.data.results });
+      // setError(null)
     } catch (err) {
       setError(err.message.response);
-      setError(error);
-      setState(null);
+      // setError(error);
+      // setState(null);
     }
   };
 
@@ -118,6 +122,10 @@ export default function App() {
 
   useEffect(() => {
     fetchPokemon();
+    if (window.localStorage !== undefined) {
+      const pokemonData = window.localStorage.getItem("pokemon");
+      pokemonData !== null ? setPokemon(JSON.parse(pokemonData)) : null;
+    }
   }, []);
 
   return (
@@ -159,7 +167,11 @@ export default function App() {
                 Which Pokemon do you want?
               </label>
             </div>
-            <Search pokemonNames={state.pokemon} error={error} />
+            <Search
+              includes={state.includes}
+              pokemonNames={state.pokemon}
+              error={error}
+            />
           </div>
           <div className="absolute opacity-60 h-3/4 w-[56%] bottom-24 z-40 right-0 bg-cover bg-no-repeat bg-right bg-[url('https://o.remove.bg/downloads/24524da7-7575-4d12-8073-c75d96b4547c/Cute-Pikachu-Pokemon-Character-iphone-11-pro-removebg-preview.png')]"></div>
         </div>

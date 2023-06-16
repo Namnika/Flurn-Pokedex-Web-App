@@ -14,16 +14,17 @@ import {
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
-const Search = ({ pokemonNames, error }) => {
+const Search = ({ pokemonNames, error, includes }) => {
   const [searchInput, setSearchInput] = useState("");
   const [searchShow, setSearchShow] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [err, setarr] = useState(includes);
 
   useEffect(() => {
     setLoading(true);
     const id = setInterval(() => {
       setLoading(false);
-    }, 7000);
+    }, 3000);
     return () => {
       clearInterval(id);
     };
@@ -47,7 +48,7 @@ const Search = ({ pokemonNames, error }) => {
       return (
         <div
           className="text-slate-800 font-medium 
-         overscroll-y-scroll absolute z-50 rounded-lg shadow-lg border-gray-300 border-[1px]
+         overflow-y-scroll absolute z-50 rounded-lg shadow-lg border-gray-300 border-[1px]
          backdrop-blur-lg bg-white/60 mt-20 mx-16 h-72 w-[25em] bg-white "
         >
           {/* loader */}
@@ -60,13 +61,29 @@ const Search = ({ pokemonNames, error }) => {
             />
           )}
 
-          {/* error */}
-          {!loading && error && (
-            <h3 className="absolute md:left-44 left-4 w-5/6 font-medium items-center text-center text-rose-600">{`Something went wrong! ${error}`}</h3>
-          )}
+          {/* error arr ===false */}
+          {err === !filteredNames.includes(searchInput) ? (
+            <h3
+              className={`absolute md:left-44 
+  left-4 w-5/6 items-center 
+  text-center text-rose-600`}
+            >
+              {`Something went wrong! ${error.response}`}
+            </h3>
+          ) : null}
 
-          <ul className="mx-10 my-5 ">
-            <SearchList filteredNames={filteredNames} />
+          <ul className={`mx-10  my-5`}>
+            {!filteredNames.includes(searchInput) ? (
+              <SearchList filteredNames={filteredNames} />
+            ) : (
+              <h3
+                className={`absolute md:left-44 
+  left-4 w-5/6 items-center 
+  text-center text-rose-600`}
+              >
+                {`Something went wrong! ${error.response}`}
+              </h3>
+            )}
           </ul>
         </div>
       );
@@ -140,17 +157,20 @@ const Search = ({ pokemonNames, error }) => {
 
       {searchList()}
       <div className="grid max-w-[28em] relative my-36 mx-10 grid-cols-2 gap-4">
-        {filtersButton.map((filter) => {
+        {filtersButton.map((filter, index) => {
           return (
-            <Link to={filter.path}>
-              <button
-                className={`rounded-xl shadow-lg shadow-${filter.shadowColor} text-white
+            <>
+              <Link to={filter.path}>
+                <button
+                  key={index}
+                  className={`rounded-xl shadow-lg shadow-${filter.shadowColor} text-white
          font-medium text-start  px-6 text-lg 
          bg-${filter.color} py-4`}
-              >
-                {filter.name}
-              </button>
-            </Link>
+                >
+                  {filter.name}
+                </button>
+              </Link>
+            </>
           );
         })}
       </div>

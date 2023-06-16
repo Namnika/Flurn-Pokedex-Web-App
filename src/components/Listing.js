@@ -1,9 +1,21 @@
 import { Heading, Container } from "@chakra-ui/react";
 import { Space, Tag } from "antd";
 import { IoChevronBack } from "react-icons/io5";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const Listing = () => {
+  const [pokemonData, setPokemonData] = useState([]);
+
+  useEffect(() => {
+    if (window.localStorage !== undefined) {
+      const data = window.localStorage.getItem("pokemon");
+      data !== null ? setPokemonData(JSON.parse(data)) : null;
+    }
+  }, []);
+
+  console.log(pokemonData);
+
   return (
     <>
       {/* background design */}
@@ -22,6 +34,7 @@ const Listing = () => {
             gap-5 grid-flow-col grid-cols-3"
           >
             {/* mapping all pokemons */}
+
             <Link to="/details/pokemon-name">
               <div
                 className="rounded-lg shadow-lg  bg-no-repeat
@@ -30,9 +43,7 @@ const Listing = () => {
                  bg-[url('https://images.unsplash.com/photo-1642534270237-ae57b321c5bc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fHBva2Vtb258ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=400&q=60')]
                   py-16 w-64 h-40"
               >
-                <h2 className="-mt-10 ml-5 text-xl font-medium">
-                  Pokemon Name
-                </h2>
+                <h2 className="-mt-10 ml-5 text-xl font-medium">ter</h2>
                 {/* add id like this: #00{id-no.} */}
                 <Space
                   className="flex flex-col items-start"
