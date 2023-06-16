@@ -67,7 +67,7 @@ export default function App() {
 
       // await sleep(7000);
       // should be res.data...
-      const pokemon = await axios(res.data.pokemon);
+      const pokemon = await axios(res.data.pokemon + "?limit=100000&offset=0");
       setState({ pokemon: pokemon.data.results });
       localStorage.setItem("pokemon", JSON.stringify(pokemon.data.results));
       setPokemon(pokemon.data.results);
