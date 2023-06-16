@@ -118,7 +118,7 @@ export default function App() {
     }
   };
 
-  console.log(state.pokemon);
+  // console.log(state.pokemon);
 
   useEffect(() => {
     fetchPokemon();

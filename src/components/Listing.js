@@ -1,20 +1,46 @@
-import { Heading, Container, Text, Flex, Spacer } from "@chakra-ui/react";
 import { Space, Tag } from "antd";
+import { Heading, Container, Text, Flex, Spacer } from "@chakra-ui/react";
 import { IoChevronBack } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import axios from "axios";
+import BeatLoader from "react-spinners/BeatLoader";
 
 const Listing = () => {
   const [pokemonData, setPokemonData] = useState([]);
+  const [abilities, setAbilities] = useState([]);
+  const [urls, setUrls] = useState([]);
+  const [error, setError] = useState({});
+
+  const fetchAbilities = async () => {
+    const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+    let url = "";
+    try {
+      await sleep(7000);
+      pokemonData.map((i) => setUrls(i.url.slice(0, -6)));
+
+      await sleep(7000);
+      [...Array(1281).keys()].map(async (t) => {
+        await sleep(7000);
+        console.log(urls[t] + t);
+        // const res = await axios(urls[t] + t);
+        // setAbilities(res);
+        // console.log(res);
+      });
+    } catch (error) {
+      setError(error.response);
+    }
+  };
 
   useEffect(() => {
+    fetchAbilities();
     if (window.localStorage !== undefined) {
       const data = window.localStorage.getItem("pokemon");
       data !== null ? setPokemonData(JSON.parse(data)) : null;
     }
   }, []);
-
-  console.log(pokemonData);
+  console.log(urls);
+  console.log(abilities);
 
   return (
     <>
@@ -52,7 +78,9 @@ const Listing = () => {
                         </h2>
                         {/* add id like this: #00{id-no.} */}
                         <Spacer />
-                        <Text className={`before:content-['#00']`}>
+                        <Text
+                          className={`text-gray-700 before:content-['#00']`}
+                        >
                           {index + 1}
                         </Text>
                       </Flex>
@@ -62,12 +90,14 @@ const Listing = () => {
                         wrap
                       >
                         {/* mapp all tags */}
+                        {/* {abilities.map((ability) => ( */}
                         <Tag
                           className="border-0 my-3 px-2 py-1 mx-5 rounded-full bg-white/25 text-white/90 text-sm"
                           color="blue"
                         >
-                          Pokemon tag
+                          tag
                         </Tag>
+                        {/* ))} */}
                       </Space>
                     </div>
                   </Link>
