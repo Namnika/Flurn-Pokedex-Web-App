@@ -11,10 +11,9 @@ const Listing = () => {
   const [pokemonAllData, setPokemonAllData] = useState([]);
   const [error, setError] = useState({});
   const [hasMore, setHasMore] = useState(true);
-
-  const item = pokemonAllData.slice(0, 10);
-  // console.log(item)
-  const [newPokemonData, setNewPokemonData] = useState(item);
+  const [newPokemonData, setNewPokemonData] = useState(
+    pokemonData.map((poke) => poke)
+  );
 
   console.log(newPokemonData);
 
@@ -30,6 +29,7 @@ const Listing = () => {
         "pokemonalldata",
         JSON.stringify(response.map((res) => res.data))
       );
+      //  infinite scroll
     } catch (error) {
       setError(error.response);
     }
@@ -37,37 +37,24 @@ const Listing = () => {
 
   useEffect(() => {
     fetchAbilities();
+
     if (window.localStorage !== undefined) {
       const data = window.localStorage.getItem("pokemon");
       data !== null ? setPokemonData(JSON.parse(data)) : null;
     }
   }, []);
 
-  const fetchMoreData = () => {
-    // check if datalength is > 70
-    if (newPokemonData.length > 70) {
-      setHasMore(false);
-      return;
-    }
-
-    setTimeout(() => {
-      setNewPokemonData((prevData) => [
-        ...prevData,
-        pokemonAllData.slice(0, 10).map((t, index) => {
-          return t[index];
-        })
-      ]);
-    }, 3000);
-  };
+  console.log(pokemonAllData);
 
   return (
     <>
+      {/* background design */}
       <div>
         <Container maxW="container.lg" mt={10}>
           <Heading align="center" mt={24} as="h3" size="xl">
             Pokédex
           </Heading>
-
+          {/* routing to go back */}
           <Link to="/">
             <IoChevronBack size={30} className="text-slate-800/90" />
           </Link>
@@ -76,7 +63,8 @@ const Listing = () => {
             className="mt-24 grid  text-start
             gap-4 gap-y-7 mx-5 justify-center justify-items-center  grid-cols-3"
           >
-            {item.map((poke, index) => {
+            {/* mapping all pokemons */}
+            {pokemonData.map((poke, index) => {
               return (
                 <>
                   <Link to={`/details/${poke.name}`} key={index}>
@@ -103,16 +91,20 @@ const Listing = () => {
                         size={[0, "small"]}
                         wrap
                       >
-                        {poke.abilities.map((tags) => (
-                          <Tag
-                            key={tags.id}
-                            id={tags.id}
-                            className="border-0 my-3 px-2 py-1 mx-5 rounded-full bg-white/25 text-white/90 text-sm"
-                            color="blue"
-                          >
-                            {tags.ability.name}
-                          </Tag>
-                        ))}
+                        {/* map all tags */}
+                        {pokemonAllData.length > 0 &&
+                          pokemonAllData.map((tag) =>
+                            tag.abilities.map((tags) => (
+                              <Tag
+                                key={index}
+                                id={tag.id}
+                                className="border-0 my-3 px-2 py-1 mx-5 rounded-full bg-white/25 text-white/90 text-sm"
+                                color="blue"
+                              >
+                                {tags.ability.name}
+                              </Tag>
+                            ))
+                          )}
                       </Space>
                     </div>
                   </Link>

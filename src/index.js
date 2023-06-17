@@ -12,8 +12,8 @@ const root = createRoot(rootElement);
 
 root.render(
   <StrictMode>
-    <ChakraProvider>
-      <FavPokemonProvider>
+    <FavPokemonProvider>
+      <ChakraProvider>
         <Router>
           <Routes>
             <Route path="/" element={<App />} />
@@ -23,7 +23,7 @@ root.render(
             <Route path="/bookmarks" element={<BookmarkScreen />} />
           </Routes>
         </Router>
-      </FavPokemonProvider>
-    </ChakraProvider>
+      </ChakraProvider>
+    </FavPokemonProvider>
   </StrictMode>
 );

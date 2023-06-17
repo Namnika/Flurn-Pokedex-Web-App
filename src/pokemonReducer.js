@@ -1,4 +1,4 @@
-const initialState = [{ id: 1, favourite: false }];
+const initialState = [];
 
 export const initializer = (initialValue = initialState) =>
   JSON.parse(localStorage.getItem("pokemonalldata")) || initialValue;
