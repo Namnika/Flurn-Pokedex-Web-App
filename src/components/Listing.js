@@ -12,9 +12,9 @@ const Listing = () => {
   const [error, setError] = useState({});
   const [hasMore, setHasMore] = useState(true);
   const [newPokemonData, setNewPokemonData] = useState(
-    pokemonData.map((poke) => poke)
+    pokemonData.slice(0, 10)
   );
-
+  const [isLoading, setLoading] = useState(false);
   console.log(newPokemonData);
 
   const fetchAbilities = async () => {
@@ -37,12 +37,32 @@ const Listing = () => {
 
   useEffect(() => {
     fetchAbilities();
-
     if (window.localStorage !== undefined) {
       const data = window.localStorage.getItem("pokemon");
       data !== null ? setPokemonData(JSON.parse(data)) : null;
     }
-  }, []);
+    window.addEventListener("scroll", handleInfiniteScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleInfiniteScroll);
+    };
+  }, [isLoading]);
+
+  function handleInfiniteScroll() {
+    setTimeout(() => {
+      if (
+        window.innerHeight + document.documentElement.scrollTop !==
+          document.documentElement.offsetHeight || isLoading ? (
+          <BeatLoader />
+        ) : null
+      ) {
+        const newarr = pokemonAllData.slice(0, 10).map((t) => {
+          return t;
+        });
+        setNewPokemonData(newPokemonData.concat(newarr));
+      }
+    }, 3000);
+  }
 
   console.log(pokemonAllData);
 
@@ -64,7 +84,7 @@ const Listing = () => {
             gap-4 gap-y-7 mx-5 justify-center justify-items-center  grid-cols-3"
           >
             {/* mapping all pokemons */}
-            {pokemonData.map((poke, index) => {
+            {newPokemonData.map((poke, index) => {
               return (
                 <>
                   <Link to={`/details/${poke.name}`} key={index}>
