@@ -12,41 +12,40 @@ const Listing = () => {
   const [error, setError] = useState({});
   const [hasMore, setHasMore] = useState(true);
   const [newPokemonData, setNewPokemonData] = useState(
-    pokemonData.slice(0, 10)
+    pokemonAllData.slice(0, 10)
   );
+
   const [isLoading, setLoading] = useState(false);
 
+  const fetchAbilities = async () => {
+    try {
+      // fetching  pokemons data as per the cond.
+      const response = await Promise.all(
+        pokemonData.map((t) => axios.get(t.url))
+      );
+      // storing in localstorage
+      setPokemonAllData(response.map((res) => res.data));
+      localStorage.setItem(
+        "pokemonalldata",
+        JSON.stringify(response.map((res) => res.data))
+      );
+      //  infinite scroll
+    } catch (error) {
+      setError(error.response);
+    }
+  };
   useEffect(() => {
-    const fetchAbilities = async () => {
-      try {
-        // fetching  pokemons data as per the cond.
-        const response = await Promise.all(
-          pokemonData.map((t) => axios.get(t.url))
-        );
-        // storing in localstorage
-        setPokemonAllData(response.map((res) => res.data));
-        localStorage.setItem(
-          "pokemonalldata",
-          JSON.stringify(response.map((res) => res.data))
-        );
-        //  infinite scroll
-      } catch (error) {
-        setError(error.response);
-      }
-    };
     fetchAbilities();
-
+    if (window.localStorage !== undefined) {
+      const data = window.localStorage.getItem("pokemon");
+      data !== null ? setPokemonData(JSON.parse(data)) : null;
+    }
     window.addEventListener("scroll", handleInfiniteScroll);
 
     return () => {
       window.removeEventListener("scroll", handleInfiniteScroll);
     };
   }, []);
-
-  if (window.localStorage !== undefined) {
-    const data = window.localStorage.getItem("pokemon");
-    data !== null ? setPokemonData(JSON.parse(data)) : null;
-  }
 
   function handleInfiniteScroll() {
     if (
