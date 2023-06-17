@@ -14,14 +14,18 @@ import { IoChevronBack } from "react-icons/io5";
 import { Space, Tag } from "antd";
 import { TbHeart } from "react-icons/tb";
 import { Link } from "react-router-dom";
-import { useState, useEffect, useContext } from "react";
-import { CardContext } from "../pokemonProvider";
-import { addFavorites, removeFavorite } from "../pokemonReducer";
+import { useState, useEffect, useReducer } from "react";
+import cardReducer from "../pokemonReducer";
+const storageKey = "Favorites";
 
 export default function Details() {
-  const { dispatch } = useContext(CardContext);
   const [favorite, setFavorite] = useState(false);
   const [pokemonDetails, setPokemonDetails] = useState([]);
+  const [dispatch] = useReducer(
+    cardReducer,
+    [],
+    (initial) => JSON.parse(localStorage.getItem(storageKey)) || initial
+  );
 
   useEffect(() => {
     if (window.localStorage !== undefined) {
@@ -31,11 +35,11 @@ export default function Details() {
   }, []);
 
   const addCardHandler = (cardToAdd) => {
-    dispatch(addFavorites(cardToAdd));
+    dispatch({ type: "ADD" });
     setFavorite(true);
   };
   const removeCardHandler = (cardToRemove) => {
-    dispatch(removeFavorite(cardToRemove));
+    dispatch({ type: "REMOVE" });
     setFavorite(false);
   };
   return (
@@ -93,7 +97,7 @@ export default function Details() {
 
                 <TbHeart
                   key={index}
-                  onClick={() => addCardHandler() || removeCardHandler()}
+                  onClick={() => addCardHandler()}
                   size={20}
                   className={`cursor-pointer stroke-2
                  hover:fill-white/90

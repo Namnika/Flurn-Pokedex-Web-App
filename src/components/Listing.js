@@ -15,7 +15,6 @@ const Listing = () => {
     pokemonData.slice(0, 10)
   );
   const [isLoading, setLoading] = useState(false);
-  console.log(newPokemonData);
 
   useEffect(() => {
     const fetchAbilities = async () => {
@@ -42,7 +41,7 @@ const Listing = () => {
     return () => {
       window.removeEventListener("scroll", handleInfiniteScroll);
     };
-  }, [isLoading]);
+  }, []);
 
   if (window.localStorage !== undefined) {
     const data = window.localStorage.getItem("pokemon");
@@ -52,7 +51,7 @@ const Listing = () => {
   function handleInfiniteScroll() {
     if (
       window.innerHeight + document.documentElement.scrollTop !==
-        document.documentElement.offsetHeight || isLoading ? (
+        document.documentElement.offsetHeight || hasMore ? (
         <BeatLoader />
       ) : null
     ) {
@@ -77,51 +76,48 @@ const Listing = () => {
           className="mt-24 grid  text-start
             gap-4 gap-y-7 mx-5 justify-center justify-items-center  grid-cols-3"
         >
-          {/* {newPokemonData.map((poke, index) => {
+          {newPokemonData.map((poke, index) => {
             return (
-              <> */}
-          <Link to={`/details/poke-name`}>
-            <div
-              className="rounded-lg shadow-lg  bg-no-repeat
+              <>
+                <Link to={`/details/poke-name`}>
+                  <div
+                    className="rounded-lg shadow-lg  bg-no-repeat
                bg-left-top bg-blend-darken
                 hover:opacity-90
                  bg-[url('https://images.unsplash.com/photo-1642534270237-ae57b321c5bc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fHBva2Vtb258ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=400&q=60')]
                   py-16 w-64 h-40"
-            >
-              <Flex>
-                <h2 className="-mt-10 ml-5 text-xl text-white/90 font-medium">
-                  {/* {poke.name} */}
-                </h2>
-                <Spacer />
-                <Text className={`text-gray-700 before:content-['#00']`}>
-                  {/* {index + 1} */}
-                </Text>
-              </Flex>
-              <Space
-                className="flex flex-col items-start"
-                size={[0, "small"]}
-                wrap
-              >
-                {/* map all tags */}
-                {/* {pokemonAllData.length > 0 &&
-                          pokemonAllData.map((tag) =>
-                            tag.abilities.map((tags) => (
-                              <Tag
-                                key={index}
-                                id={tag.id}
-                                className="border-0 my-3 px-2 py-1 mx-5 rounded-full bg-white/25 text-white/90 text-sm"
-                                color="blue"
-                              >
-                                {tags.ability.name}
-                              </Tag>
-                            ))
-                          )} */}
-              </Space>
-            </div>
-          </Link>
-          {/* </>
+                  >
+                    <Flex>
+                      <h2 className="-mt-10 ml-5 text-xl text-white/90 font-medium">
+                        {poke.name}
+                      </h2>
+                      <Spacer />
+                      <Text className={`text-gray-700 before:content-['#00']`}>
+                        {index + 1}
+                      </Text>
+                    </Flex>
+                    <Space
+                      className="flex flex-col items-start"
+                      size={[0, "small"]}
+                      wrap
+                    >
+                      {/* map all tags */}
+                      {poke.abilities.map((tags) => (
+                        <Tag
+                          key={index}
+                          id={index}
+                          className="border-0 my-3 px-2 py-1 mx-5 rounded-full bg-white/25 text-white/90 text-sm"
+                          color="blue"
+                        >
+                          {tags.ability.name}
+                        </Tag>
+                      ))}
+                    </Space>
+                  </div>
+                </Link>
+              </>
             );
-          })} */}
+          })}
         </div>
       </Container>
     </>

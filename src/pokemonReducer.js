@@ -1,29 +1,31 @@
-const initialState = [];
-
-export const initializer = (initialValue = initialState) =>
-  JSON.parse(localStorage.getItem("pokemonalldata")) || initialValue;
-
-export const pokemonReducer = (state, action) => {
+const cardReducer = (state, action) => {
   switch (action.type) {
-    case "ADD":
-      return state.find((card) =>
-        card.name === action.card.name
-          ? [...state, { ...action.card, id: 1 }]
-          : state
-      );
-    case "REMOVE":
-      return state.filter((card) => card.id !== action.card.id);
-    default:
+    case "ADD": {
+      const card = action.payload;
+      let index = state.findIndex((i) => card.name === i.name);
+      if (index >= 0) {
+        const newState = [...state];
+        newState.splice(index, 1, {
+          ...state[index],
+          id: state[index].id + 1
+        });
+        return newState;
+      } else {
+        return [...state, { ...card, id: 1 }];
+      }
+    }
+    case "REMOVE": {
+      let index = state.findIndex((i) => action.payload.name === i.name);
+      if (index >= 0) {
+        const newState = [...state];
+        newState.splice(index, 1);
+        return newState;
+      }
       return state;
+    }
+    default:
+      throw new Error();
   }
 };
 
-export const addFavorites = (card) => ({
-  type: "ADD",
-  card
-});
-
-export const removeFavorite = (card) => ({
-  type: "REMOVE",
-  card
-});
+export default cardReducer;

@@ -2,16 +2,22 @@ import { Container, Flex, Spacer, Text, Heading } from "@chakra-ui/react";
 import { IoChevronBack } from "react-icons/io5";
 import { TbHeart } from "react-icons/tb";
 import { Link } from "react-router-dom";
-import { useContext } from "react";
-import { CardContext } from "../FavPokemonProvider";
 import { removeFavorite } from "../pokemonReducer";
 import { Space, Tag } from "antd";
-const BookmarkScreen = () => {
-  const { card, dispatch } = useContext(CardContext);
+import cardReducer from "../pokemonReducer";
+import { useReducer } from "react";
 
+const BookmarkScreen = () => {
   const removeCardHandler = (card) => {
     dispatch(removeFavorite(card));
   };
+
+  const storageKey = "Favorites";
+  const [card, dispatch] = useReducer(
+    cardReducer,
+    [],
+    (initial) => JSON.parse(localStorage.getItem(storageKey)) || initial
+  );
 
   return (
     <>
@@ -58,12 +64,12 @@ const BookmarkScreen = () => {
                 </Flex>
                 <TbHeart
                   key={id}
-                  onClick={() => removeCardHandler(card) || removeCardHandler()}
+                  onClick={() => removeCardHandler(card)}
                   size={20}
-                  className={`cursor-pointer stroke-2
+                  className="cursor-pointer stroke-2
                  hover:fill-white/90 fill-white
                  hover:scale-[1.11]
-                  stroke-white/90 ml-5`}
+                  stroke-white/90 ml-5"
                 />
                 <Space
                   className="flex flex-col items-start"
@@ -72,8 +78,8 @@ const BookmarkScreen = () => {
                 >
                   {favpoke.abilities.map((tags) => (
                     <Tag
-                      key={tags.id}
-                      id={tags.id}
+                      key={id}
+                      id={id}
                       className="border-0 my-3 px-2 py-1 mx-5 rounded-full bg-white/25 text-white/90 text-sm"
                       color="blue"
                     >
