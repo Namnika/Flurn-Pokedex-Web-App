@@ -5,18 +5,17 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import BeatLoader from "react-spinners/BeatLoader";
-// import InfiniteScroll from "react-infinite-scroll-component";
 
 const Listing = () => {
   const [pokemonData, setPokemonData] = useState([]);
   const [pokemonAllData, setPokemonAllData] = useState([]);
   const [error, setError] = useState({});
   const [hasMore, setHasMore] = useState(true);
-  
-  const item = pokemonAllData.slice(0, 10)
+
+  const item = pokemonAllData.slice(0, 10);
   // console.log(item)
   const [newPokemonData, setNewPokemonData] = useState(item);
- 
+
   console.log(newPokemonData);
 
   const fetchAbilities = async () => {
@@ -77,8 +76,6 @@ const Listing = () => {
             className="mt-24 grid  text-start
             gap-4 gap-y-7 mx-5 justify-center justify-items-center  grid-cols-3"
           >
-            
-            
             {item.map((poke, index) => {
               return (
                 <>
@@ -107,23 +104,21 @@ const Listing = () => {
                         wrap
                       >
                         {poke.abilities.map((tags) => (
-                              <Tag
-                                key={poke.id}
-                                id={poke.id}
-                                className="border-0 my-3 px-2 py-1 mx-5 rounded-full bg-white/25 text-white/90 text-sm"
-                                color="blue"
-                              >
-                                {tags.ability.name}
-                              </Tag>
-                            ))
-                          }
+                          <Tag
+                            key={tags.id}
+                            id={tags.id}
+                            className="border-0 my-3 px-2 py-1 mx-5 rounded-full bg-white/25 text-white/90 text-sm"
+                            color="blue"
+                          >
+                            {tags.ability.name}
+                          </Tag>
+                        ))}
                       </Space>
                     </div>
                   </Link>
                 </>
               );
             })}
-            {/* </InfiniteScroll> */}
           </div>
         </Container>
       </div>

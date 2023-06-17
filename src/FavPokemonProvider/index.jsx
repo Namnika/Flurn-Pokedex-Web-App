@@ -7,8 +7,8 @@ export const FavPokemonProvider = ({ children }) => {
   const [card, dispatch] = useReducer(pokemonReducer, [], initializer);
 
   useEffect(() => {
-    console.log("Added to favourites locally", card);
-    localStorage.setItem("favourites", JSON.stringify(card));
+    console.log("Added to favorites locally", card);
+    localStorage.setItem("favorites", JSON.stringify(card));
   }, [card]);
 
   return (

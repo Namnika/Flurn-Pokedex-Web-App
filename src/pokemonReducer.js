@@ -1,4 +1,4 @@
-const initialState = [];
+const initialState = [{ id: 1, favourite: false }];
 
 export const initializer = (initialValue = initialState) =>
   JSON.parse(localStorage.getItem("pokemonalldata")) || initialValue;
@@ -18,12 +18,12 @@ export const pokemonReducer = (state, action) => {
   }
 };
 
-export const addFavourites = (card) => ({
+export const addFavorites = (card) => ({
   type: "ADD",
   card
 });
 
-export const removeFavourite = (card) => ({
+export const removeFavorite = (card) => ({
   type: "REMOVE",
   card
 });
