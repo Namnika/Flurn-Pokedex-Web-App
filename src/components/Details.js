@@ -13,9 +13,9 @@ import {
 import { IoChevronBack } from "react-icons/io5";
 import { Space, Tag } from "antd";
 import { TbHeart } from "react-icons/tb";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
-import { CardContext } from "../FavPokemonProvider";
+import { CardContext } from "../pokemonProvider";
 import { addFavorites, removeFavorite } from "../pokemonReducer";
 
 export default function Details() {

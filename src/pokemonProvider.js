@@ -1,5 +1,5 @@
 import { createContext, useEffect, useReducer } from "react";
-import { pokemonReducer, initializer } from "../pokemonReducer";
+import { pokemonReducer, initializer } from "./pokemonReducer";
 
 export const CardContext = createContext();
 

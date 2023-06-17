@@ -17,30 +17,26 @@ const Listing = () => {
   const [isLoading, setLoading] = useState(false);
   console.log(newPokemonData);
 
-  const fetchAbilities = async () => {
-    try {
-      // fetching  pokemons data as per the cond.
-      const response = await Promise.all(
-        pokemonData.map((t) => axios.get(t.url))
-      );
-      // storing in localstorage
-      setPokemonAllData(response.map((res) => res.data));
-      localStorage.setItem(
-        "pokemonalldata",
-        JSON.stringify(response.map((res) => res.data))
-      );
-      //  infinite scroll
-    } catch (error) {
-      setError(error.response);
-    }
-  };
-
   useEffect(() => {
+    const fetchAbilities = async () => {
+      try {
+        // fetching  pokemons data as per the cond.
+        const response = await Promise.all(
+          pokemonData.map((t) => axios.get(t.url))
+        );
+        // storing in localstorage
+        setPokemonAllData(response.map((res) => res.data));
+        localStorage.setItem(
+          "pokemonalldata",
+          JSON.stringify(response.map((res) => res.data))
+        );
+        //  infinite scroll
+      } catch (error) {
+        setError(error.response);
+      }
+    };
     fetchAbilities();
-    if (window.localStorage !== undefined) {
-      const data = window.localStorage.getItem("pokemon");
-      data !== null ? setPokemonData(JSON.parse(data)) : null;
-    }
+
     window.addEventListener("scroll", handleInfiniteScroll);
 
     return () => {
@@ -48,71 +44,66 @@ const Listing = () => {
     };
   }, [isLoading]);
 
-  function handleInfiniteScroll() {
-    setTimeout(() => {
-      if (
-        window.innerHeight + document.documentElement.scrollTop !==
-          document.documentElement.offsetHeight || isLoading ? (
-          <BeatLoader />
-        ) : null
-      ) {
-        const newarr = pokemonAllData.slice(0, 10).map((t) => {
-          return t;
-        });
-        setNewPokemonData(newPokemonData.concat(newarr));
-      }
-    }, 3000);
+  if (window.localStorage !== undefined) {
+    const data = window.localStorage.getItem("pokemon");
+    data !== null ? setPokemonData(JSON.parse(data)) : null;
   }
 
-  console.log(pokemonAllData);
+  function handleInfiniteScroll() {
+    if (
+      window.innerHeight + document.documentElement.scrollTop !==
+        document.documentElement.offsetHeight || isLoading ? (
+        <BeatLoader />
+      ) : null
+    ) {
+      const newarr = pokemonAllData.slice(0, 10).map((t) => {
+        return t;
+      });
+      setNewPokemonData((prev) => [...prev, newarr]);
+    }
+  }
 
   return (
     <>
-      {/* background design */}
-      <div>
-        <Container maxW="container.lg" mt={10}>
-          <Heading align="center" mt={24} as="h3" size="xl">
-            Pokédex
-          </Heading>
-          {/* routing to go back */}
-          <Link to="/">
-            <IoChevronBack size={30} className="text-slate-800/90" />
-          </Link>
+      <Container maxW="container.lg" mt={10}>
+        <Heading align="center" mt={24} as="h3" size="xl">
+          Pokédex
+        </Heading>
+        <Link to="/">
+          <IoChevronBack size={30} className="text-slate-800/90" />
+        </Link>
 
-          <div
-            className="mt-24 grid  text-start
+        <div
+          className="mt-24 grid  text-start
             gap-4 gap-y-7 mx-5 justify-center justify-items-center  grid-cols-3"
-          >
-            {/* mapping all pokemons */}
-            {newPokemonData.map((poke, index) => {
-              return (
-                <>
-                  <Link to={`/details/${poke.name}`} key={index}>
-                    <div
-                      className="rounded-lg shadow-lg  bg-no-repeat
+        >
+          {/* {newPokemonData.map((poke, index) => {
+            return (
+              <> */}
+          <Link to={`/details/poke-name`}>
+            <div
+              className="rounded-lg shadow-lg  bg-no-repeat
                bg-left-top bg-blend-darken
                 hover:opacity-90
                  bg-[url('https://images.unsplash.com/photo-1642534270237-ae57b321c5bc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fHBva2Vtb258ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=400&q=60')]
                   py-16 w-64 h-40"
-                    >
-                      <Flex>
-                        <h2 className="-mt-10 ml-5 text-xl text-white/90 font-medium">
-                          {poke.name}
-                        </h2>
-                        <Spacer />
-                        <Text
-                          className={`text-gray-700 before:content-['#00']`}
-                        >
-                          {index + 1}
-                        </Text>
-                      </Flex>
-                      <Space
-                        className="flex flex-col items-start"
-                        size={[0, "small"]}
-                        wrap
-                      >
-                        {/* map all tags */}
-                        {pokemonAllData.length > 0 &&
+            >
+              <Flex>
+                <h2 className="-mt-10 ml-5 text-xl text-white/90 font-medium">
+                  {/* {poke.name} */}
+                </h2>
+                <Spacer />
+                <Text className={`text-gray-700 before:content-['#00']`}>
+                  {/* {index + 1} */}
+                </Text>
+              </Flex>
+              <Space
+                className="flex flex-col items-start"
+                size={[0, "small"]}
+                wrap
+              >
+                {/* map all tags */}
+                {/* {pokemonAllData.length > 0 &&
                           pokemonAllData.map((tag) =>
                             tag.abilities.map((tags) => (
                               <Tag
@@ -124,16 +115,15 @@ const Listing = () => {
                                 {tags.ability.name}
                               </Tag>
                             ))
-                          )}
-                      </Space>
-                    </div>
-                  </Link>
-                </>
-              );
-            })}
-          </div>
-        </Container>
-      </div>
+                          )} */}
+              </Space>
+            </div>
+          </Link>
+          {/* </>
+            );
+          })} */}
+        </div>
+      </Container>
     </>
   );
 };
