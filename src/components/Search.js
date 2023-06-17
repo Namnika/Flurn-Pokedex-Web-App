@@ -18,13 +18,13 @@ const Search = ({ pokemonNames, error, includes }) => {
   const [searchInput, setSearchInput] = useState("");
   const [searchShow, setSearchShow] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [err, setarr] = useState(includes);
+  const [err, setErr] = useState(false);
 
   useEffect(() => {
     setLoading(true);
     const id = setInterval(() => {
       setLoading(false);
-    }, 3000);
+    }, 2000);
     return () => {
       clearInterval(id);
     };
@@ -34,6 +34,7 @@ const Search = ({ pokemonNames, error, includes }) => {
     setSearchInput(e.target.value);
     if (e.target.value === "") {
       setSearchShow(false);
+      setErr(false);
     } else {
       setSearchShow(true);
     }
@@ -51,8 +52,6 @@ const Search = ({ pokemonNames, error, includes }) => {
          overflow-y-scroll absolute z-50 rounded-lg shadow-lg border-gray-300 border-[1px]
          backdrop-blur-lg bg-white/60 mt-20 mx-16 h-72 w-[25em] bg-white "
         >
-          {/* loader */}
-
           {loading && (
             <BeatLoader
               className="absolute top-32 left-44 md:left-80  "
@@ -61,8 +60,7 @@ const Search = ({ pokemonNames, error, includes }) => {
             />
           )}
 
-          {/* error arr ===false */}
-          {err === !filteredNames.includes(searchInput) ? (
+          {filteredNames.length <= 0 && (
             <h3
               className={`absolute md:left-44 
   left-4 w-5/6 items-center 
@@ -70,21 +68,12 @@ const Search = ({ pokemonNames, error, includes }) => {
             >
               {`Something went wrong! ${error.response}`}
             </h3>
-          ) : null}
-
-          <ul className={`mx-10  my-5`}>
-            {!filteredNames.includes(searchInput) ? (
+          )}
+          {error && (
+            <ul className={`mx-10  my-5`}>
               <SearchList filteredNames={filteredNames} />
-            ) : (
-              <h3
-                className={`absolute md:left-44 
-  left-4 w-5/6 items-center 
-  text-center text-rose-600`}
-              >
-                {`Something went wrong! ${error.response}`}
-              </h3>
-            )}
-          </ul>
+            </ul>
+          )}
         </div>
       );
     }
