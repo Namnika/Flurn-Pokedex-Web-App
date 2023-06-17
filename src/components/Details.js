@@ -42,7 +42,7 @@ export default function Details() {
           </Flex>
 
           <Space className="flex flex-col items-start" size={[0, "small"]} wrap>
-            {/* map all tags if there is an array otherwise no */}
+            {/* map all tag if there is an array otherwise no */}
             <Tag className="border-0 my-3 px-2 py-1  rounded-full bg-white/25 text-white/90 text-sm">
               Pokemon tag
             </Tag>

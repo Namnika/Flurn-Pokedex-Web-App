@@ -27,8 +27,9 @@ const BookmarkScreen = () => {
             Find all your pokemons you have liked!
           </Text>
           <Spacer />
-          {/* map all bookmarks pokemon */}
+
           <div className="grid  mt-20 ml-10 gap-5 grid-flow-col grid-cols-3">
+            {/* map all bookmarks pokemon */}
             <div className="shadow-lg  text-white rounded-lg bg-slate-500 py-16 w-64 h-40">
               <Flex>
                 <button>

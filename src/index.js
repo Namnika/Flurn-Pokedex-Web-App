@@ -6,22 +6,24 @@ import App from "./App";
 import Listing from "./components/Listing";
 import Details from "./components/Details";
 import BookmarkScreen from "./components/BookmarkScreen";
-
+import { FavPokemonProvider } from "./FavPokemonProvider";
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);
 
 root.render(
   <StrictMode>
-    <ChakraProvider>
-      <Router>
-        <Routes>
-          <Route path="/" element={<App />} />
-          <Route path="/pokemon-listing" element={<Listing />} />
-          <Route path="/pokemon-listing/:name" element={<Listing />} />
-          <Route path="/details/:name" element={<Details />} />
-          <Route path="/bookmarks" element={<BookmarkScreen />} />
-        </Routes>
-      </Router>
-    </ChakraProvider>
+    <FavPokemonProvider>
+      <ChakraProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={<App />} />
+            <Route path="/pokemon-listing" element={<Listing />} />
+            <Route path="/pokemon-listing/:name" element={<Listing />} />
+            <Route path="/details/:name" element={<Details />} />
+            <Route path="/bookmarks" element={<BookmarkScreen />} />
+          </Routes>
+        </Router>
+      </ChakraProvider>
+    </FavPokemonProvider>
   </StrictMode>
 );
