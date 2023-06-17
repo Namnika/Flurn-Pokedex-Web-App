@@ -9,35 +9,11 @@ import { Link } from "react-router-dom";
 export default function App() {
   const [state, setState] = useState({
     includes: false,
-    abilities: [],
-    characteristics: [],
-    evolutionchains: [],
-    generations: [],
-    growthrates: [],
-    pokemon: [],
-    pokedex: [],
-    pokemonspecies: [],
-    pokemonshapes: [],
-    pokemonhabitats: [],
-    versions: [],
-    pokemoncolors: [],
-    pokemonforms: [],
-    versiongroups: [],
-    natures: [],
-    locations: []
+    pokemon: []
   });
 
   const [pokemon, setPokemon] = useState();
   const [error, setError] = useState({});
-
-  const ec = "evolution chain".replace(/\s+/g, "-");
-  const gr = "growth rate".replace(/\s+/g, "-");
-  const psp = "pokemon species".replace(/\s+/g, "-");
-  const psh = "pokemon shape".replace(/\s+/g, "-");
-  const ph = "pokemon habitat".replace(/\s+/g, "-");
-  const pf = "pokemon form".replace(/\s+/g, "-");
-  const pc = "pokemon color".replace(/\s+/g, "-");
-  const vg = "version group".replace(/\s+/g, "-");
 
   const fetchPokemon = async () => {
     const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -45,80 +21,15 @@ export default function App() {
       await sleep(7000);
       const res = await axios("https://pokeapi.co/api/v2/");
 
-      // await sleep(7000);
-      // const ability = await axios(data.ability);
-      // setState({ abilities: ability.data.results });
-
-      // await sleep(7000);
-      // const characteristic = await axios(data.characteristic);
-      // setState({ characteristics: characteristic.data.results });
-
-      // await sleep(7000);
-      // const evolutionchain = await axios(data[ec]);
-      // setState({ evolutionchains: evolutionchain.data.results });
-
-      // await sleep(7000);
-      // const generation = await axios(data.generation);
-      // setState({ generations: generation.data.results });
-
-      // await sleep(7000);
-      // const growthrate = await axios(data[gr]);
-      // setState({ growthrates: growthrate.data.results });
-
-      // await sleep(7000);
       // should be res.data...
-      const pokemon = await axios(res.data.pokemon + "?limit=100000&offset=0");
+      const pokemon = await axios(res.data.pokemon + "?limit=70&offset=0");
       setState({ pokemon: pokemon.data.results });
       localStorage.setItem("pokemon", JSON.stringify(pokemon.data.results));
       setPokemon(pokemon.data.results);
-      // await sleep(7000);
-      // const pokedex = await axios(data.pokedex);
-      // setState({ pokedex: pokedex.data.results });
-
-      // await sleep(7000);
-      // const pokemonspecies = await axios(data[psp]);
-      // setState({ pokemonspecies: pokemonspecies.data.results });
-
-      // await sleep(7000);
-      // const pokemonshape = await axios(data[psh]);
-      // setState({ pokemonshapes: pokemonshape.data.results });
-
-      // await sleep(7000);
-      // const pokemonhabitat = await axios(data[ph]);
-      // setState({ pokemonhabitats: pokemonhabitat.data.results });
-
-      // await sleep(7000);
-      // const pokemonform = await axios(data[pf]);
-      // setState({ pokemonforms: pokemonform.data.results });
-
-      // await sleep(7000);
-      // const pokemoncolor = await axios(data[pc]);
-      // setState({ pokemoncolors: pokemoncolor.data.results });
-
-      // await sleep(7000);
-      // const version = await axios(data.version);
-      // setState({ versions: version.data.results });
-
-      // await sleep(7000);
-      // const location = await axios(data.location);
-      // setState({ locations: location.data.results });
-
-      // await sleep(7000);
-      // const versiongroup = await axios(data[vg]);
-      // setState({ versiongroups: versiongroup.data.results });
-
-      // await sleep(7000);
-      // const nature = await axios(data.nature);
-      // setState({ natures: nature.data.results });
-      // setError(null)
     } catch (err) {
       setError(err.message.response);
-      // setError(error);
-      // setState(null);
     }
   };
-
-  // console.log(state.pokemon);
 
   useEffect(() => {
     fetchPokemon();

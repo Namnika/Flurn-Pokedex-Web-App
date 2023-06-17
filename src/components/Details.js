@@ -36,7 +36,7 @@ export default function Details() {
             </Heading>
 
             <Spacer />
-            <Text className="mt-[6.5rem] text-white/90" fontSize="lg">
+            <Text className="mt-[6.5rem] text-black/90" fontSize="lg">
               #001
             </Text>
           </Flex>
