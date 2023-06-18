@@ -31,7 +31,7 @@ export default function Details() {
   const [pokeAbilities, setAbilities] = useState([]);
 
   useEffect(() => {
-    if (window.localStorage !== undefined) {
+    if (typeof window.localStorage !== undefined) {
       const data = window.localStorage.getItem("alldata");
       data !== null ? setAbilities(JSON.parse(data)) : null;
     }
@@ -86,7 +86,7 @@ export default function Details() {
           </Space>
 
           <Flex mt={-36} minWidth="max-content" alignItems="center" gap="2">
-            <Link to="/pokemon-listing">
+            <Link to="/pokemon-listing/pokédex">
               <IoChevronBack size={30} className="text-black/90" />
             </Link>
             <Spacer />

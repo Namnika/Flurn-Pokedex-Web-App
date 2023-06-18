@@ -20,7 +20,6 @@ export default function App() {
       await sleep(7000);
       const res = await axios("https://pokeapi.co/api/v2/");
 
-      // should be res.data...
       const pokemon = await axios(res.data.pokemon + "?limit=100&offset=0");
       setState({ pokemon: pokemon.data.results });
       localStorage.setItem("pokemon", JSON.stringify(pokemon.data.results));
@@ -61,10 +60,8 @@ export default function App() {
                 color="#09090b"
                 alignItems="flex-end"
                 to="/favorites"
-                target="_blank"
-                rel="noopener noreferrer"
               >
-                Favorites <ExternalLinkIcon mx="2px" />
+                Favorites
               </Link>
             </Flex>
 

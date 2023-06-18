@@ -19,31 +19,31 @@ const Listing = () => {
 
   const [isLoading, setLoading] = useState(false);
 
+  const fetchAbilities = async () => {
+    try {
+      const response = await Promise.all(pokemonData.map((t) => axios(t.url)));
+
+      localStorage.setItem(
+        "alldata",
+        JSON.stringify(response.map((res) => res.data))
+      );
+      setPokemonAllData(response.map((res) => res.data));
+      console.log(response.map((res) => res.data));
+    } catch (error) {
+      setError(error.response);
+    }
+  };
+
   useEffect(() => {
     setLoading(true);
     const id = setInterval(() => {
       setLoading(false);
-    }, 20000);
+    }, 80000);
+    fetchAbilities();
     if (window.localStorage !== undefined) {
       const data = window.localStorage.getItem("pokemon");
       data !== null ? setPokemonData(JSON.parse(data)) : null;
     }
-    const fetchAbilities = async () => {
-      try {
-        const response = await Promise.all(
-          pokemonData.map((t) => axios(t.url))
-        );
-
-        localStorage.setItem(
-          "alldata",
-          JSON.parse(response.map((res) => res.data))
-        );
-        setPokemonAllData(response.map((res) => res.data));
-      } catch (error) {
-        setError(error.response);
-      }
-    };
-    fetchAbilities();
 
     //  infinite scroll having bit problems
     window.addEventListener("scroll", handleInfiniteScroll);
