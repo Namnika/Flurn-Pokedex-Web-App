@@ -1,2 +1,0 @@
-# Flurn
-Created with CodeSandbox
