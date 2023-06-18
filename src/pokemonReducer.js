@@ -29,3 +29,12 @@ const cardReducer = (state, action) => {
 };
 
 export default cardReducer;
+
+export const removeFavorite = (payload) => ({
+  type: "ADD",
+  payload
+});
+export const addFavorite = (payload) => ({
+  type: "REMOVE",
+  payload
+});

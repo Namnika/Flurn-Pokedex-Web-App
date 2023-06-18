@@ -15,7 +15,7 @@ import { Space, Tag } from "antd";
 import { TbHeart } from "react-icons/tb";
 import { Link, useLocation } from "react-router-dom";
 import { useState, useEffect, useReducer } from "react";
-import cardReducer from "../pokemonReducer";
+import cardReducer, { addFavorite, removeFavorite } from "../pokemonReducer";
 const storageKey = "Favorites";
 
 export default function Details() {
@@ -38,11 +38,11 @@ export default function Details() {
   }, []);
 
   const addCardHandler = (cardToAdd) => {
-    dispatch({ type: "ADD" });
+    dispatch(addFavorite(cardToAdd));
     setFavorite(true);
   };
   const removeCardHandler = (cardToRemove) => {
-    dispatch({ type: "REMOVE" });
+    dispatch(removeFavorite(cardToRemove));
     setFavorite(false);
   };
 

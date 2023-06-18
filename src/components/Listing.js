@@ -23,7 +23,7 @@ const Listing = () => {
     setLoading(true);
     const id = setInterval(() => {
       setLoading(false);
-    }, 50000);
+    }, 80000);
     const fetchAbilities = async () => {
       try {
         const response = await Promise.all(
