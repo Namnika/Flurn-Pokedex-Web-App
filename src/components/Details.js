@@ -104,7 +104,7 @@ export default function Details() {
           </Flex>
 
           <Spacer mt={50} />
-          <Tabs className=" mx-5 text-gray-400 md:mt-64 mt-80 font-semibold">
+          <Tabs className="py-24 mx-5 text-gray-400 md:mt-64 mt-80 font-semibold">
             <TabList>
               <Tab
                 _selected={{
