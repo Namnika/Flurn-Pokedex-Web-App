@@ -14,7 +14,7 @@ import axios from "axios";
 import { IoChevronBack } from "react-icons/io5";
 import { Space, Tag } from "antd";
 import { TbHeart } from "react-icons/tb";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useState, useEffect, useReducer } from "react";
 import cardReducer from "../pokemonReducer";
 const storageKey = "Favorites";
@@ -22,21 +22,21 @@ const storageKey = "Favorites";
 export default function Details() {
   const [favorite, setFavorite] = useState(false);
   const [error, setError] = useState({});
-  const [pokemonDetails, setPokemonDetails] = useState({
-    name: {},
-    text: [],
-    growth_rate: {},
-    habitat: [],
-    pokedex_numbers: [],
-    shape: {}
+  const [pokemonDetails, setPokemonDetails] = useState([]);
+  // console.log(pokemonDetails);
+  const location = useLocation();
+  pokemonDetails.map((poke) => {
+    const name = poke.name;
   });
+  // console.log(name)
+
   const [dispatch] = useReducer(
     cardReducer,
     [],
     (initial) => JSON.parse(localStorage.getItem(storageKey)) || initial
   );
   const [pokeAbilities, setAbilities] = useState([]);
-
+  // console.log(pokeAbilities);
   const fetchDetails = async () => {
     const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
     try {
@@ -73,39 +73,45 @@ export default function Details() {
   return (
     <>
       <div
-        className={`bg-cover opacity-95 bg-no-repeat bg-blend-darken bg-center drop-shadow-2xl bg-fixed 
-       h-96 rounded-b-3xl w-full bg-[url()]`}
+        key={location.state.id}
+        className={`bg-contain bg-indigo-200 opacity-95 bg-no-repeat bg-blend-darken bg-center drop-shadow-2xl bg-fixed 
+       h-96 rounded-b-3xl w-full bg-[url(${location.state.img})]`}
       >
         <Container maxW="container.md" px={10} pt={10}>
           <Flex>
             <Heading
-              className="text-black/90 "
+              className="text-indigo-600/90 font-bold"
               align="start"
               mt={24}
               as="h3"
-              size="xl"
-            ></Heading>
+              size="2xl"
+            >
+              {location.state.name}
+            </Heading>
 
             <Spacer />
             <Text
-              className={`mt-[6.5rem] text-white/90 before:content-['#00']`}
+              className={`mt-[6.5rem] text-indigo-600/90 before:content-['#00']`}
               fontSize="lg"
-            ></Text>
+            >
+              {location.state.id}
+            </Text>
           </Flex>
 
           <Space className="flex flex-col items-start" size={[0, "small"]} wrap>
+            {/* {location.state.abilities.map((tag) => ( */}
             <Tag
-              // key={index}
-              // id={index}
-              className="border-0 my-3 px-2 py-1  rounded-full bg-white/25 text-white/90 text-sm"
+              // key={tag.id}
+              className="border-0 my-3 px-2 py-1  rounded-full bg-indigo-400/25 text-indigo-600/90 text-sm"
             >
               hfg
             </Tag>
+            {/* ))} */}
           </Space>
 
           <Flex mt={-36} minWidth="max-content" alignItems="center" gap="2">
             <Link to="/pokemon-listing">
-              <IoChevronBack size={30} className="text-white/90" />
+              <IoChevronBack size={30} className="text-black/90" />
             </Link>
             <Spacer />
 
@@ -116,13 +122,13 @@ export default function Details() {
               // onClick={() => addCardHandler()}
               size={20}
               className={`cursor-pointer stroke-2
-                 hover:fill-white/90
-                 ${!favorite ? "fill-white" : "fill-none"}
+                 hover:fill-indigo-600/90
+                 ${favorite ? "fill-indigo-600" : "fill-none"}
                  hover:scale-[1.11]
-                  stroke-white/90 ml-5`}
+                  stroke-indigo-600/90 ml-5`}
             />
           </Flex>
-          <Text mt={36} className="text-white font-medium">
+          <Text mt={36} className="text-indigo-600 font-medium">
             "The quick brown fox jumps over the lazy dog" is an English-language
             pangram—a sentence that contains all of the letters of the English
             alphabet. Owing to its existence, Chakra was created.

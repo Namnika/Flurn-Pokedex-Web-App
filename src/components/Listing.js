@@ -19,6 +19,11 @@ const Listing = () => {
   const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
+    const id = setInterval(() => {
+      setLoading(false);
+    }, 12000);
+
     const fetchAbilities = async () => {
       try {
         // fetching  pokemons data as per the cond.
@@ -45,6 +50,7 @@ const Listing = () => {
     window.addEventListener("scroll", handleInfiniteScroll);
 
     return () => {
+      clearInterval(id);
       window.removeEventListener("scroll", handleInfiniteScroll);
     };
   }, []);
@@ -72,26 +78,38 @@ const Listing = () => {
         <Link to="/">
           <IoChevronBack size={30} className="text-slate-800/90" />
         </Link>
-
+        {isLoading && (
+          <BeatLoader
+            className="absolute top-32 left-44 md:left-80  "
+            size={15}
+            color="#4338ca"
+          />
+        )}
         <div
           className="mt-24 grid  text-start
             gap-4 gap-y-7 mx-5 justify-center justify-items-center  grid-cols-3"
         >
-          {pokemonAllData.map((poke, index) => {
-            return (
-              <>
-                <Link key={index} to={`/details/${poke.species.name}`}>
+          {!isLoading &&
+            pokemonAllData.map((poke, index) => {
+              return (
+                <>
+                  {/* <Link key={index} to={`/details/${poke.species.name}`}> */}
                   <div
                     onClick={() =>
                       navigate(`/details/${poke.species.name}`, {
-                        state: { pokemonAllData }
+                        state: {
+                          id: poke.id,
+                          name: poke.name,
+                          img: poke.sprites.other.home.front_default
+                          // abilities: poke.abilities.map((t) => t)
+                        }
                       })
                     }
                     key={index}
-                    className={`rounded-lg shadow-lg  bg-no-repeat
+                    className={`cursor-pointer rounded-lg shadow-lg  bg-no-repeat
                bg-right-bottom bg-blend-darken bg-emerald-300
                 hover:opacity-90
-                 bg-[url(${poke.sprites.front_shiny})]
+                 bg-[url(${poke.sprites.front_default})]
                   py-16 w-64 h-44`}
                   >
                     <Flex>
@@ -126,10 +144,10 @@ const Listing = () => {
                       </Space>
                     </div>
                   </div>
-                </Link>
-              </>
-            );
-          })}
+                  {/* </Link> */}
+                </>
+              );
+            })}
         </div>
       </Container>
     </>
