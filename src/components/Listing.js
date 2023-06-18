@@ -12,6 +12,7 @@ const Listing = () => {
   const navigate = useNavigate();
   const [error, setError] = useState({});
   const [hasMore, setHasMore] = useState(true);
+  // for infinite scrolling  trying to take out 10 details using Slicing array
   const [newPokemonData, setNewPokemonData] = useState(
     pokemonAllData.slice(0, 10)
   );
@@ -42,7 +43,7 @@ const Listing = () => {
       const data = window.localStorage.getItem("pokemon");
       data !== null ? setPokemonData(JSON.parse(data)) : null;
     }
-    //  infinite scroll
+    //  infinite scroll having bit problems
     window.addEventListener("scroll", handleInfiniteScroll);
 
     return () => {
