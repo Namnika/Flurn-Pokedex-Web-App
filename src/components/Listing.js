@@ -20,14 +20,12 @@ const Listing = () => {
   const [isLoading, setLoading] = useState(false);
 
   const fetchAbilities = async () => {
+    const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
     try {
-      if (window.localStorage !== undefined) {
-        const data = window.localStorage.getItem("pokemon");
-        data !== null ? setPokemonData(JSON.parse(data)) : null;
-      }
+      await sleep(7000);
       const response = await Promise.all(pokemonData.map((t) => axios(t.url)));
       setPokemonAllData(response.map((res) => res.data));
-   
+      // console.log(response);
       localStorage.setItem(
         "alldata",
         JSON.stringify(response.map((res) => res.data))
@@ -38,17 +36,25 @@ const Listing = () => {
   };
 
   useEffect(() => {
-    fetchAbilities();
     setLoading(true);
-    const id = setInterval(() => {
+    const id = setTimeout(() => {
       setLoading(false);
     }, 80000);
 
+    return () => {
+      clearInterval(id);
+    };
+  }, []);
+  useEffect(() => {
+    fetchAbilities();
+    if (window.localStorage !== undefined) {
+      const data = window.localStorage.getItem("pokemon");
+      data !== null ? setPokemonData(JSON.parse(data)) : null;
+    }
     //  infinite scroll having bit problems
     window.addEventListener("scroll", handleInfiniteScroll);
 
     return () => {
-      clearInterval(id);
       window.removeEventListener("scroll", handleInfiniteScroll);
     };
   }, []);
@@ -92,7 +98,8 @@ const Listing = () => {
               return (
                 <>
                   <div
-                    onClick={() =>
+                    onClick={(e) =>{
+                      e.preventDefault();
                       navigate(`/details/${poke.species.name}`, {
                         state: {
                           id: poke.id,
@@ -104,7 +111,7 @@ const Listing = () => {
                           moves: poke.moves,
                           types: poke.types
                         }
-                      })
+                      })}
                     }
                     key={index}
                     className={`cursor-pointer rounded-lg shadow-lg  bg-no-repeat

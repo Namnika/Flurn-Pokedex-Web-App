@@ -86,7 +86,7 @@ export default function Details() {
           </Space>
 
           <Flex mt={-36} minWidth="max-content" alignItems="center" gap="2">
-            <Link to="/pokemon-listing/pokédex">
+            <Link onClick={(e) => e.preventDefault()} to="/pokemon-listing">
               <IoChevronBack size={30} className="text-black/90" />
             </Link>
             <Spacer />

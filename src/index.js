@@ -13,6 +13,7 @@ root.render(
     <Router>
       <Routes>
         <Route path="/" element={<App />} />
+        <Route path="/pokemon-listing" element={<Listing />} />
         <Route path="/pokemon-listing/pokédex" element={<Listing />} />
         <Route path="/details/:name" element={<Details />} />
         <Route path="/favorites" element={<BookmarkScreen />} />

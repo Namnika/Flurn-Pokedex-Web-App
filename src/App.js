@@ -20,7 +20,7 @@ export default function App() {
       await sleep(7000);
       const res = await axios("https://pokeapi.co/api/v2/");
 
-      const pokemon = await axios(res.data.pokemon + "?limit=100&offset=0");
+      const pokemon = await axios(res.data.pokemon + "?limit=70&offset=0");
       setState({ pokemon: pokemon.data.results });
       localStorage.setItem("pokemon", JSON.stringify(pokemon.data.results));
       setPokemon(pokemon.data.results);
