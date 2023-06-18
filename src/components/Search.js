@@ -148,7 +148,7 @@ const Search = ({ pokemonNames, error, includes }) => {
         {filtersButton.map((filter, index) => {
           return (
             <>
-              <Link to={filter.path}>
+              <Link key={index} to={filter.path}>
                 <button
                   key={index}
                   className={`rounded-xl shadow-lg shadow-${filter.shadowColor} text-white
@@ -172,7 +172,6 @@ const Search = ({ pokemonNames, error, includes }) => {
           View All
         </Button>
 
-        {/* listing news */}
         <div>
           <Card
             direction={{ base: "column", sm: "row" }}

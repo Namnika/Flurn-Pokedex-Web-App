@@ -12,7 +12,7 @@ const Listing = () => {
   const navigate = useNavigate();
   const [error, setError] = useState({});
   const [hasMore, setHasMore] = useState(true);
-  // for infinite scrolling  trying to take out 10 details using Slicing array
+  // for infinite scrolling I was trying to take out 10 details using Slicing array
   const [newPokemonData, setNewPokemonData] = useState(
     pokemonAllData.slice(0, 10)
   );
@@ -21,29 +21,28 @@ const Listing = () => {
 
   const fetchAbilities = async () => {
     try {
+      if (window.localStorage !== undefined) {
+        const data = window.localStorage.getItem("pokemon");
+        data !== null ? setPokemonData(JSON.parse(data)) : null;
+      }
       const response = await Promise.all(pokemonData.map((t) => axios(t.url)));
-
+      setPokemonAllData(response.map((res) => res.data));
+   
       localStorage.setItem(
         "alldata",
         JSON.stringify(response.map((res) => res.data))
       );
-      setPokemonAllData(response.map((res) => res.data));
-      console.log(response.map((res) => res.data));
     } catch (error) {
       setError(error.response);
     }
   };
 
   useEffect(() => {
+    fetchAbilities();
     setLoading(true);
     const id = setInterval(() => {
       setLoading(false);
     }, 80000);
-    fetchAbilities();
-    if (window.localStorage !== undefined) {
-      const data = window.localStorage.getItem("pokemon");
-      data !== null ? setPokemonData(JSON.parse(data)) : null;
-    }
 
     //  infinite scroll having bit problems
     window.addEventListener("scroll", handleInfiniteScroll);
@@ -131,10 +130,10 @@ const Listing = () => {
                         size={[0, "small"]}
                         wrap
                       >
-                        {poke.abilities.map((tags, index) => (
+                        {poke.abilities.map((tags, id) => (
                           <Tag
                             key={index}
-                            id={index}
+                            id={id}
                             className="border-0 my-3 px-2  py-1 mx-5 rounded-full bg-white/25 text-white/90 text-sm"
                             color="blue"
                           >
