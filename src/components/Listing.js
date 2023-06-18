@@ -36,7 +36,7 @@ const Listing = () => {
         setPokemonAllData(response.map((res) => res.data));
         if (window.localStorage !== undefined) {
           const data = window.localStorage.setItem("alldata");
-          data !== null ? setPokemonData(JSON.parse(data)) : null;
+          data !== null ? setPokemonAllData(JSON.parse(data)) : null;
         }
       } catch (error) {
         setError(error.response);
