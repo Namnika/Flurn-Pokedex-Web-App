@@ -33,11 +33,12 @@ const Listing = () => {
         const response = await Promise.all(
           pokemonData.map((t) => axios(t.url))
         );
+
+        localStorage.setItem(
+          "alldata",
+          JSON.parse(response.map((res) => res.data))
+        );
         setPokemonAllData(response.map((res) => res.data));
-        if (window.localStorage !== undefined) {
-          const data = window.localStorage.setItem("alldata");
-          data !== null ? setPokemonAllData(JSON.parse(data)) : null;
-        }
       } catch (error) {
         setError(error.response);
       }
