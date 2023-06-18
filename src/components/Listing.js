@@ -1,7 +1,7 @@
 import { Space, Tag } from "antd";
 import { Heading, Container, Text, Flex, Spacer } from "@chakra-ui/react";
 import { IoChevronBack } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import BeatLoader from "react-spinners/BeatLoader";
@@ -9,6 +9,7 @@ import BeatLoader from "react-spinners/BeatLoader";
 const Listing = () => {
   const [pokemonData, setPokemonData] = useState([]);
   const [pokemonAllData, setPokemonAllData] = useState([]);
+  const navigate = useNavigate();
   const [error, setError] = useState({});
   const [hasMore, setHasMore] = useState(true);
   const [newPokemonData, setNewPokemonData] = useState(
@@ -26,9 +27,9 @@ const Listing = () => {
         );
         // storing in localstorage
         setPokemonAllData(response.map((res) => res.data));
-        localStorage.setItem(
-          "pokemonalldata",
-          JSON.stringify(response.map((res) => res.data))
+        window.localStorage.setItem(
+          "alldata",
+          JSON.stringify(response.map((res) => res.data.abilities))
         );
       } catch (error) {
         setError(error.response);
@@ -62,9 +63,6 @@ const Listing = () => {
     }
   }
 
-  // const genbg = "generation iii";
-  // const bg = genbg.replace(/\s+/g, "-");
-
   return (
     <>
       <Container maxW="container.lg" mt={10}>
@@ -84,6 +82,11 @@ const Listing = () => {
               <>
                 <Link key={index} to={`/details/${poke.species.name}`}>
                   <div
+                    onClick={() =>
+                      navigate(`/details/${poke.species.name}`, {
+                        state: { pokemonAllData }
+                      })
+                    }
                     key={index}
                     className={`rounded-lg shadow-lg  bg-no-repeat
                bg-right-bottom bg-blend-darken bg-emerald-300
