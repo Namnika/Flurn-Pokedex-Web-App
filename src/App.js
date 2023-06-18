@@ -8,7 +8,6 @@ import { Link } from "react-router-dom";
 
 export default function App() {
   const [state, setState] = useState({
-    includes: false,
     pokemon: []
   });
 
@@ -61,11 +60,11 @@ export default function App() {
                 className="font-bold hover:decoration-2 hover:underline"
                 color="#09090b"
                 alignItems="flex-end"
-                to="/bookmarks"
+                to="/favorites"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                BookMarks <ExternalLinkIcon mx="2px" />
+                Favorites <ExternalLinkIcon mx="2px" />
               </Link>
             </Flex>
 
@@ -78,11 +77,7 @@ export default function App() {
                 Which Pokemon do you want?
               </label>
             </div>
-            <Search
-              includes={state.includes}
-              pokemonNames={state.pokemon}
-              error={error}
-            />
+            <Search pokemonNames={state.pokemon} error={error} />
           </div>
           <div className="absolute opacity-60 h-3/4 w-[56%] bottom-24 z-40 right-0 bg-cover bg-no-repeat bg-right bg-[url('https://o.remove.bg/downloads/24524da7-7575-4d12-8073-c75d96b4547c/Cute-Pikachu-Pokemon-Character-iphone-11-pro-removebg-preview.png')]"></div>
         </div>

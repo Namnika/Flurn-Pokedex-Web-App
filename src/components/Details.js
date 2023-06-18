@@ -22,13 +22,8 @@ const storageKey = "Favorites";
 export default function Details() {
   const [favorite, setFavorite] = useState(false);
   const [error, setError] = useState({});
-  const [pokemonDetails, setPokemonDetails] = useState([]);
   // console.log(pokemonDetails);
   const location = useLocation();
-  pokemonDetails.map((poke) => {
-    const name = poke.name;
-  });
-  // console.log(name)
 
   const [dispatch] = useReducer(
     cardReducer,
@@ -37,24 +32,9 @@ export default function Details() {
   );
   const [pokeAbilities, setAbilities] = useState([]);
   // console.log(pokeAbilities);
-  const fetchDetails = async () => {
-    const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-    try {
-      await sleep(7000);
-      const res = await axios("https://pokeapi.co/api/v2/pokemon-species/");
-
-      await sleep(7000);
-      const response = await Promise.all(
-        res.data.results.map((t) => axios.get(t.url + "?limit100&offset=0"))
-      );
-      setPokemonDetails(response.map((i) => i.data));
-    } catch (err) {
-      setError(err.message.response);
-    }
-  };
+  const [pokemonDetails, setPokemonDetails] = useState([]);
 
   useEffect(() => {
-    fetchDetails();
     if (window.localStorage !== undefined) {
       const data = window.localStorage.getItem("alldata");
       data !== null ? setAbilities(JSON.parse(data)) : null;
@@ -98,15 +78,15 @@ export default function Details() {
             </Text>
           </Flex>
 
-          <Space className="flex flex-col items-start" size={[0, "small"]} wrap>
-            {/* {location.state.abilities.map((tag) => ( */}
-            <Tag
-              // key={tag.id}
-              className="border-0 my-3 px-2 py-1  rounded-full bg-indigo-400/25 text-indigo-600/90 text-sm"
-            >
-              hfg
-            </Tag>
-            {/* ))} */}
+          <Space className="flex flex-row items-start" size={[0, "small"]} wrap>
+            {location.state.abilities.map((poke) => (
+              <Tag
+                key={poke.id}
+                className="border-0 my-3 space-x-3 px-2 py-1  rounded-full bg-indigo-400/25 text-indigo-600/90 text-sm"
+              >
+                {poke.ability.name}
+              </Tag>
+            ))}
           </Space>
 
           <Flex mt={-36} minWidth="max-content" alignItems="center" gap="2">
@@ -118,8 +98,8 @@ export default function Details() {
             {/* add or remove card only dispatching actions should go here*/}
 
             <TbHeart
-              // key={index}
-              // onClick={() => addCardHandler()}
+              key={location.state.id}
+              onClick={() => addCardHandler()}
               size={20}
               className={`cursor-pointer stroke-2
                  hover:fill-indigo-600/90
@@ -134,37 +114,94 @@ export default function Details() {
             alphabet. Owing to its existence, Chakra was created.
           </Text>
           <Spacer mt={75} />
-          <Tabs className="text-gray-400 md:mt-44 mt-38 font-semibold">
+          <Tabs className=" mx-5 text-gray-400 md:mt-44 mt-38 font-semibold">
             <TabList>
               <Tab
-                _selected={{ color: "black", borderBottomColor: "black" }}
-                className="hover:text-black"
+                _selected={{
+                  color: "black",
+                  borderWidth: "3px",
+                  borderBottomColor: "black"
+                }}
+                className=" hover:text-black"
               >
-                One
+                <Heading size="sm" as="h4">
+                  Experience
+                </Heading>
               </Tab>
               <Tab
-                _selected={{ color: "black", borderBottomColor: "black" }}
+                _selected={{
+                  color: "black",
+                  borderWidth: "3px",
+                  borderBottomColor: "black"
+                }}
                 className="hover:text-black"
               >
-                Two
+                <Heading size="sm" as="h4">
+                  Moves
+                </Heading>
               </Tab>
               <Tab
-                _selected={{ color: "black", borderBottomColor: "black" }}
+                _selected={{
+                  color: "black",
+                  borderWidth: "3px",
+                  borderBottomColor: "black"
+                }}
                 className="hover:text-black"
               >
-                Three
+                <Heading size="sm" as="h4">
+                  Held Items
+                </Heading>
+              </Tab>
+              <Tab
+                _selected={{
+                  color: "black",
+                  borderWidth: "3px",
+                  borderBottomColor: "black"
+                }}
+                className="hover:text-black"
+              >
+                <Heading size="sm" as="h4">
+                  Height
+                </Heading>
               </Tab>
             </TabList>
 
             <TabPanels>
               <TabPanel>
-                <p>one!</p>
+                <Heading size="sm">
+                  Base Experience:{" "}
+                  <Text className="text-gray-500">{location.state.exp}</Text>
+                </Heading>
               </TabPanel>
               <TabPanel>
-                <p>two!</p>
+                <Heading size="sm">
+                  Moves:
+                  <ul className="grid grid-cols-2 gap-2">
+                    {location.state.moves.map((i) => (
+                      <Text className="text-slate-500 text-gray-500">
+                        {i.move.name}
+                      </Text>
+                    ))}
+                  </ul>
+                </Heading>
               </TabPanel>
               <TabPanel>
-                <p>three!</p>
+                <Heading size="sm">
+                  Held Items:
+                  <ul className="grid grid-cols-2 gap-2">
+                    {location.state.held_items.map((i) => (
+                      <Text className="text-slate-500 text-gray-500">
+                        {i.item.name}
+                      </Text>
+                    ))}
+                  </ul>
+                </Heading>
+              </TabPanel>
+              <TabPanel>
+                <Heading size="sm">
+                  Height:{" "}
+                  <Text className="text-gray-500">{location.state.height}</Text>
+                </Heading>
               </TabPanel>
             </TabPanels>
           </Tabs>

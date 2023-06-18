@@ -16,14 +16,31 @@ const Listing = () => {
     pokemonAllData.slice(0, 10)
   );
 
+  const [pokemonDetails, setPokemonDetails] = useState([]);
+
   const [isLoading, setLoading] = useState(false);
+
+  const fetchDetails = async () => {
+    const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+    try {
+      await sleep(7000);
+      const res = await axios("https://pokeapi.co/api/v2/pokemon-species/");
+
+      await sleep(7000);
+      const response = await Promise.all(
+        res.data.results.map((t) => axios.get(t.url + "?limit100&offset=0"))
+      );
+      setPokemonDetails(response.map((i) => i.data));
+    } catch (err) {
+      setError(err.message.response);
+    }
+  };
 
   useEffect(() => {
     setLoading(true);
     const id = setInterval(() => {
       setLoading(false);
-    }, 12000);
-
+    }, 25000);
     const fetchAbilities = async () => {
       try {
         // fetching  pokemons data as per the cond.
@@ -41,7 +58,6 @@ const Listing = () => {
       }
     };
     fetchAbilities();
-
     if (window.localStorage !== undefined) {
       const data = window.localStorage.getItem("pokemon");
       data !== null ? setPokemonData(JSON.parse(data)) : null;
@@ -93,15 +109,18 @@ const Listing = () => {
             pokemonAllData.map((poke, index) => {
               return (
                 <>
-                  {/* <Link key={index} to={`/details/${poke.species.name}`}> */}
                   <div
                     onClick={() =>
                       navigate(`/details/${poke.species.name}`, {
                         state: {
                           id: poke.id,
                           name: poke.name,
-                          img: poke.sprites.other.home.front_default
-                          // abilities: poke.abilities.map((t) => t)
+                          img: poke.sprites.other.home.front_default,
+                          abilities: poke.abilities,
+                          exp: poke.base_experience,
+                          height: poke.height,
+                          moves: poke.moves,
+                         held_items: poke.held_items
                         }
                       })
                     }
@@ -129,7 +148,6 @@ const Listing = () => {
                         size={[0, "small"]}
                         wrap
                       >
-                        {/* <div className="flex flex-row space-x-5 mx-0 flex-wrap"> */}
                         {poke.abilities.map((tags, index) => (
                           <Tag
                             key={index}
@@ -140,11 +158,9 @@ const Listing = () => {
                             {tags.ability.name}
                           </Tag>
                         ))}
-                        {/* </div> */}
                       </Space>
                     </div>
                   </div>
-                  {/* </Link> */}
                 </>
               );
             })}
