@@ -23,7 +23,11 @@ const Listing = () => {
     setLoading(true);
     const id = setInterval(() => {
       setLoading(false);
-    }, 80000);
+    }, 20000);
+    if (window.localStorage !== undefined) {
+      const data = window.localStorage.getItem("pokemon");
+      data !== null ? setPokemonData(JSON.parse(data)) : null;
+    }
     const fetchAbilities = async () => {
       try {
         const response = await Promise.all(
@@ -39,10 +43,7 @@ const Listing = () => {
       }
     };
     fetchAbilities();
-    if (window.localStorage !== undefined) {
-      const data = window.localStorage.getItem("pokemon");
-      data !== null ? setPokemonData(JSON.parse(data)) : null;
-    }
+
     //  infinite scroll having bit problems
     window.addEventListener("scroll", handleInfiniteScroll);
 
