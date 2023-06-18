@@ -17,29 +17,30 @@ const Listing = () => {
 
   const [isLoading, setLoading] = useState(false);
 
-  const fetchAbilities = async () => {
-    try {
-      // fetching  pokemons data as per the cond.
-      const response = await Promise.all(
-        pokemonData.map((t) => axios.get(t.url))
-      );
-      // storing in localstorage
-      setPokemonAllData(response.map((res) => res.data));
-      localStorage.setItem(
-        "pokemonalldata",
-        JSON.stringify(response.map((res) => res.data))
-      );
-      //  infinite scroll
-    } catch (error) {
-      setError(error.response);
-    }
-  };
   useEffect(() => {
+    const fetchAbilities = async () => {
+      try {
+        // fetching  pokemons data as per the cond.
+        const response = await Promise.all(
+          pokemonData.map((t) => axios(t.url))
+        );
+        // storing in localstorage
+        setPokemonAllData(response.map((res) => res.data));
+        localStorage.setItem(
+          "pokemonalldata",
+          JSON.stringify(response.map((res) => res.data))
+        );
+      } catch (error) {
+        setError(error.response);
+      }
+    };
     fetchAbilities();
+
     if (window.localStorage !== undefined) {
       const data = window.localStorage.getItem("pokemon");
       data !== null ? setPokemonData(JSON.parse(data)) : null;
     }
+    //  infinite scroll
     window.addEventListener("scroll", handleInfiniteScroll);
 
     return () => {
@@ -61,6 +62,9 @@ const Listing = () => {
     }
   }
 
+  // const genbg = "generation iii";
+  // const bg = genbg.replace(/\s+/g, "-");
+
   return (
     <>
       <Container maxW="container.lg" mt={10}>
@@ -75,43 +79,49 @@ const Listing = () => {
           className="mt-24 grid  text-start
             gap-4 gap-y-7 mx-5 justify-center justify-items-center  grid-cols-3"
         >
-          {newPokemonData.map((poke, index) => {
+          {pokemonAllData.map((poke, index) => {
             return (
               <>
-                <Link to={`/details/poke-name`}>
+                <Link key={index} to={`/details/${poke.species.name}`}>
                   <div
-                    className="rounded-lg shadow-lg  bg-no-repeat
-               bg-left-top bg-blend-darken
+                    key={index}
+                    className={`rounded-lg shadow-lg  bg-no-repeat
+               bg-right-bottom bg-blend-darken bg-emerald-300
                 hover:opacity-90
-                 bg-[url('https://images.unsplash.com/photo-1642534270237-ae57b321c5bc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fHBva2Vtb258ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=400&q=60')]
-                  py-16 w-64 h-40"
+                 bg-[url(${poke.sprites.front_shiny})]
+                  py-16 w-64 h-44`}
                   >
                     <Flex>
-                      <h2 className="-mt-10 ml-5 text-xl text-white/90 font-medium">
+                      <h2 className="-mt-10 ml-5 text-2xl text-white/90  capitalize font-semibold">
                         {poke.name}
                       </h2>
                       <Spacer />
-                      <Text className={`text-gray-700 before:content-['#00']`}>
+                      <Text
+                        className={`text-white/90 -mt-7 mr-9 font-medium before:content-['#00']`}
+                      >
                         {index + 1}
                       </Text>
                     </Flex>
-                    <Space
-                      className="flex flex-col items-start"
-                      size={[0, "small"]}
-                      wrap
-                    >
-                      {/* map all tags */}
-                      {poke.abilities.map((tags) => (
-                        <Tag
-                          key={index}
-                          id={index}
-                          className="border-0 my-3 px-2 py-1 mx-5 rounded-full bg-white/25 text-white/90 text-sm"
-                          color="blue"
-                        >
-                          {tags.ability.name}
-                        </Tag>
-                      ))}
-                    </Space>
+                    <div className="mr-16  -space-x-2">
+                      <Space
+                        className="grid gap-2 mr-3 -mt-3  grid-cols-1   justify-between order-1 -space-y-5 items-start"
+                        size={[0, "small"]}
+                        wrap
+                      >
+                        {/* <div className="flex flex-row space-x-5 mx-0 flex-wrap"> */}
+                        {poke.abilities.map((tags, index) => (
+                          <Tag
+                            key={index}
+                            id={index}
+                            className="border-0 my-3 px-2  py-1 mx-5 rounded-full bg-white/25 text-white/90 text-sm"
+                            color="blue"
+                          >
+                            {tags.ability.name}
+                          </Tag>
+                        ))}
+                        {/* </div> */}
+                      </Space>
+                    </div>
                   </div>
                 </Link>
               </>

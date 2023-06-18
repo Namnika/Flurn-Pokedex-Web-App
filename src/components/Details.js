@@ -78,8 +78,8 @@ export default function Details() {
               >
                 {poke.abilities.map((tags) => (
                   <Tag
-                    key={tags.id}
-                    id={tags.id}
+                    key={index}
+                    id={index}
                     className="border-0 my-3 px-2 py-1  rounded-full bg-white/25 text-white/90 text-sm"
                   >
                     {tags.ability.name}
