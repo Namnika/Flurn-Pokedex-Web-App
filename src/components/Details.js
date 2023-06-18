@@ -10,7 +10,6 @@ import {
   Tab,
   TabPanel
 } from "@chakra-ui/react";
-import axios from "axios";
 import { IoChevronBack } from "react-icons/io5";
 import { Space, Tag } from "antd";
 import { TbHeart } from "react-icons/tb";
@@ -21,8 +20,7 @@ const storageKey = "Favorites";
 
 export default function Details() {
   const [favorite, setFavorite] = useState(false);
-  const [error, setError] = useState({});
-  // console.log(pokemonDetails);
+
   const location = useLocation();
 
   const [dispatch] = useReducer(
@@ -31,8 +29,6 @@ export default function Details() {
     (initial) => JSON.parse(localStorage.getItem(storageKey)) || initial
   );
   const [pokeAbilities, setAbilities] = useState([]);
-  // console.log(pokeAbilities);
-  const [pokemonDetails, setPokemonDetails] = useState([]);
 
   useEffect(() => {
     if (window.localStorage !== undefined) {
@@ -54,7 +50,7 @@ export default function Details() {
     <>
       <div
         key={location.state.id}
-        className={`bg-contain bg-indigo-200 opacity-95 bg-no-repeat bg-blend-darken bg-center drop-shadow-2xl bg-fixed 
+        className={`bg-contain bg-indigo-200 opacity-95 bg-no-repeat bg-blend-darken bg-top drop-shadow-2xl bg-fixed 
        h-96 rounded-b-3xl w-full bg-[url(${location.state.img})]`}
       >
         <Container maxW="container.md" px={10} pt={10}>
@@ -95,8 +91,6 @@ export default function Details() {
             </Link>
             <Spacer />
 
-            {/* add or remove card only dispatching actions should go here*/}
-
             <TbHeart
               key={location.state.id}
               onClick={() => addCardHandler()}
@@ -108,13 +102,9 @@ export default function Details() {
                   stroke-indigo-600/90 ml-5`}
             />
           </Flex>
-          <Text mt={36} className="text-indigo-600 font-medium">
-            "The quick brown fox jumps over the lazy dog" is an English-language
-            pangram—a sentence that contains all of the letters of the English
-            alphabet. Owing to its existence, Chakra was created.
-          </Text>
-          <Spacer mt={75} />
-          <Tabs className=" mx-5 text-gray-400 md:mt-44 mt-38 font-semibold">
+
+          <Spacer mt={50} />
+          <Tabs className=" mx-5 text-gray-400 md:mt-64 mt-80 font-semibold">
             <TabList>
               <Tab
                 _selected={{
@@ -149,7 +139,7 @@ export default function Details() {
                 className="hover:text-black"
               >
                 <Heading size="sm" as="h4">
-                  Held Items
+                  Types
                 </Heading>
               </Tab>
               <Tab
@@ -168,15 +158,18 @@ export default function Details() {
 
             <TabPanels>
               <TabPanel>
-                <Heading size="sm">
-                  Base Experience:{" "}
-                  <Text className="text-gray-500">{location.state.exp}</Text>
+                <Heading size="sm" className=" flex inline-flex">
+                  &bull; Base Experience:{" "}
+                  <Text className="text-gray-500 px-3">
+                    {" "}
+                    {location.state.exp}
+                  </Text>
                 </Heading>
               </TabPanel>
               <TabPanel>
                 <Heading size="sm">
-                  Moves:
-                  <ul className="grid grid-cols-2 gap-2">
+                  &bull; Moves:
+                  <ul className="grid grid-cols-3 px-5 py-3 gap-2">
                     {location.state.moves.map((i) => (
                       <Text className="text-slate-500 text-gray-500">
                         {i.move.name}
@@ -187,20 +180,22 @@ export default function Details() {
               </TabPanel>
               <TabPanel>
                 <Heading size="sm">
-                  Held Items:
-                  <ul className="grid grid-cols-2 gap-2">
-                    {location.state.held_items.map((i) => (
+                  &bull; Types:
+                  <ul className="grid grid-cols-3 px-5 py-3 gap-2">
+                    {location.state.types.map((i) => (
                       <Text className="text-slate-500 text-gray-500">
-                        {i.item.name}
+                        {i.type.name}
                       </Text>
                     ))}
                   </ul>
                 </Heading>
               </TabPanel>
               <TabPanel>
-                <Heading size="sm">
-                  Height:{" "}
-                  <Text className="text-gray-500">{location.state.height}</Text>
+                <Heading size="sm" className=" flex inline-flex">
+                  &bull; Height:{" "}
+                  <Text className="text-gray-500 px-3">
+                    {location.state.height}
+                  </Text>
                 </Heading>
               </TabPanel>
             </TabPanels>

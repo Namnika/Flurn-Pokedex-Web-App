@@ -42,9 +42,9 @@ export default function App() {
     <>
       <div
         className="
-      bg-cover antialiased drop-shadow-2xl
+      bg-contain bg-no-repeat bg-right-bottom antialiased drop-shadow-2xl
       relative rounded-b-3xl bg-slate-300 
-      w-full h-[43em] "
+      w-full h-[43em] bg-[url('https://imgtr.ee/images/2023/06/18/YuPXx.th.png')]"
       >
         <div className="container">
           <div className="h-0 absolute">

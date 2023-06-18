@@ -43,7 +43,6 @@ const BookmarkScreen = () => {
         <Spacer />
 
         <div className="grid  mt-20 ml-10 gap-5 grid-flow-col grid-cols-3">
-          {/* map all bookmarks pokemon */}
           {card.map((favpoke, id) => {
             return (
               <div

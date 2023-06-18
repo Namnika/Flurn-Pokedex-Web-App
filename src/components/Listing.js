@@ -16,38 +16,18 @@ const Listing = () => {
     pokemonAllData.slice(0, 10)
   );
 
-  const [pokemonDetails, setPokemonDetails] = useState([]);
-
   const [isLoading, setLoading] = useState(false);
-
-  const fetchDetails = async () => {
-    const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-    try {
-      await sleep(7000);
-      const res = await axios("https://pokeapi.co/api/v2/pokemon-species/");
-
-      await sleep(7000);
-      const response = await Promise.all(
-        res.data.results.map((t) => axios.get(t.url + "?limit100&offset=0"))
-      );
-      setPokemonDetails(response.map((i) => i.data));
-    } catch (err) {
-      setError(err.message.response);
-    }
-  };
 
   useEffect(() => {
     setLoading(true);
     const id = setInterval(() => {
       setLoading(false);
-    }, 25000);
+    }, 50000);
     const fetchAbilities = async () => {
       try {
-        // fetching  pokemons data as per the cond.
         const response = await Promise.all(
           pokemonData.map((t) => axios(t.url))
         );
-        // storing in localstorage
         setPokemonAllData(response.map((res) => res.data));
         window.localStorage.setItem(
           "alldata",
@@ -120,7 +100,7 @@ const Listing = () => {
                           exp: poke.base_experience,
                           height: poke.height,
                           moves: poke.moves,
-                         held_items: poke.held_items
+                          types: poke.types
                         }
                       })
                     }
