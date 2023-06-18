@@ -53,7 +53,9 @@ const Listing = () => {
     }
     //  infinite scroll having bit problems
     window.addEventListener("scroll", handleInfiniteScroll);
-
+    window.addEventListener('storage', () => {
+      console.log('Added all pokemon data to localstorage')
+    })
     return () => {
       window.removeEventListener("scroll", handleInfiniteScroll);
     };
