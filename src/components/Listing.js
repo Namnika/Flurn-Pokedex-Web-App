@@ -25,15 +25,20 @@ const Listing = () => {
       await sleep(7000);
       const response = await Promise.all(pokemonData.map((t) => axios(t.url)));
       setPokemonAllData(response.map((res) => res.data));
-      // console.log(response);
-      localStorage.setItem(
+      await sleep(7000);
+      window.localStorage.setItem(
         "alldata",
         JSON.stringify(response.map((res) => res.data))
       );
+      window.addEventListener("storage", () => {
+        console.log("Added all pokemon data to localstorage");
+      });
     } catch (error) {
       setError(error.response);
     }
   };
+
+  console.log(pokemonAllData);
 
   useEffect(() => {
     setLoading(true);
@@ -45,6 +50,7 @@ const Listing = () => {
       clearInterval(id);
     };
   }, []);
+
   useEffect(() => {
     fetchAbilities();
     if (window.localStorage !== undefined) {
@@ -53,9 +59,7 @@ const Listing = () => {
     }
     //  infinite scroll having bit problems
     window.addEventListener("scroll", handleInfiniteScroll);
-    window.addEventListener('storage', () => {
-      console.log('Added all pokemon data to localstorage')
-    })
+
     return () => {
       window.removeEventListener("scroll", handleInfiniteScroll);
     };
@@ -100,7 +104,7 @@ const Listing = () => {
               return (
                 <>
                   <div
-                    onClick={(e) =>{
+                    onClick={(e) => {
                       e.preventDefault();
                       navigate(`/details/${poke.species.name}`, {
                         state: {
@@ -113,8 +117,8 @@ const Listing = () => {
                           moves: poke.moves,
                           types: poke.types
                         }
-                      })}
-                    }
+                      });
+                    }}
                     key={index}
                     className={`cursor-pointer rounded-lg shadow-lg  bg-no-repeat
                bg-right-bottom bg-blend-darken bg-emerald-300
