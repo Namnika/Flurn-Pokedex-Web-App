@@ -30,6 +30,7 @@ const Listing = () => {
         "alldata",
         JSON.stringify(response.map((res) => res.data))
       );
+      console.log(pokemonAllData);
       window.addEventListener("storage", () => {
         console.log("Added all pokemon data to localstorage");
       });
