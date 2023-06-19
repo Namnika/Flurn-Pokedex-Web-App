@@ -19,7 +19,8 @@ const Listing = () => {
 
   const [isLoading, setLoading] = useState(false);
 
-  const fetchAbilities = async () => {
+  const fetchAbilities = async (e) => {
+    e.preventDefault(
     const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
     try {
       await sleep(7000);
@@ -38,7 +39,7 @@ const Listing = () => {
     }
   };
 
-  console.log(pokemonAllData);
+  // console.log(pokemonAllData);
 
   useEffect(() => {
     setLoading(true);
@@ -118,6 +119,7 @@ const Listing = () => {
                           types: poke.types
                         }
                       });
+                      
                     }}
                     key={index}
                     className={`cursor-pointer rounded-lg shadow-lg  bg-no-repeat

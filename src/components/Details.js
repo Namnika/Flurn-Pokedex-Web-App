@@ -13,7 +13,7 @@ import {
 import { IoChevronBack } from "react-icons/io5";
 import { Space, Tag } from "antd";
 import { TbHeart } from "react-icons/tb";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect, useReducer } from "react";
 import cardReducer, { addFavorite, removeFavorite } from "../pokemonReducer";
 const storageKey = "Favorites";
@@ -22,6 +22,7 @@ export default function Details() {
   const [favorite, setFavorite] = useState(false);
 
   const location = useLocation();
+  const navigate = useNavigate();
 
   const [dispatch] = useReducer(
     cardReducer,
@@ -56,7 +57,7 @@ export default function Details() {
         <Container maxW="container.md" px={10} pt={10}>
           <Flex>
             <Heading
-              className="text-indigo-600/90 font-bold"
+              className="text-indigo-600/90 capitalize font-bold"
               align="start"
               mt={24}
               as="h3"
@@ -86,9 +87,17 @@ export default function Details() {
           </Space>
 
           <Flex mt={-36} minWidth="max-content" alignItems="center" gap="2">
-            <Link onClick={(e) => e.preventDefault()} to="/pokemon-listing">
-              <IoChevronBack size={30} className="text-black/90" />
-            </Link>
+            <div
+              onClick={() => {
+                navigate("/pokemon-listing");
+                
+              }}
+            >
+              <IoChevronBack
+                size={30}
+                className="text-black/90 cursor-pointer"
+              />
+            </div>
             <Spacer />
 
             <TbHeart
