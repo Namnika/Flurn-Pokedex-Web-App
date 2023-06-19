@@ -3,7 +3,6 @@ import "./index.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Flex, Spacer } from "@chakra-ui/react";
-import { ExternalLinkIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
 
 export default function App() {

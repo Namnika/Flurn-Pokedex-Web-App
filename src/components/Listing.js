@@ -13,9 +13,9 @@ const Listing = () => {
   const [error, setError] = useState({});
   const [hasMore, setHasMore] = useState(true);
   // for infinite scrolling I was trying to take out 10 details using Slicing array
-  const [newPokemonData, setNewPokemonData] = useState(
-    pokemonAllData.slice(0, 10)
-  );
+  // const [newPokemonData, setNewPokemonData] = useState(
+  //   pokemonAllData.slice(0, 10)
+  // );
 
   const [isLoading, setLoading] = useState(false);
 
@@ -76,7 +76,7 @@ const Listing = () => {
       const newarr = pokemonAllData.slice(0, 10).map((t) => {
         return t;
       });
-      setNewPokemonData((prev) => [...prev, newarr]);
+      // setNewPokemonData((prev) => [...prev, newarr]);
     }
   }
 

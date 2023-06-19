@@ -14,7 +14,7 @@ import { IoChevronBack } from "react-icons/io5";
 import { Space, Tag } from "antd";
 import { TbHeart } from "react-icons/tb";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useState, useEffect, useReducer } from "react";
+import { useState, useReducer } from "react";
 import cardReducer, { addFavorite, removeFavorite } from "../pokemonReducer";
 const storageKey = "Favorites";
 
@@ -29,23 +29,15 @@ export default function Details() {
     [],
     (initial) => JSON.parse(localStorage.getItem(storageKey)) || initial
   );
-  const [pokeAbilities, setAbilities] = useState([]);
-
-  useEffect(() => {
-    if (typeof window.localStorage !== undefined) {
-      const data = window.localStorage.getItem("alldata");
-      data !== null ? setAbilities(JSON.parse(data)) : null;
-    }
-  }, []);
 
   const addCardHandler = (cardToAdd) => {
     dispatch(addFavorite(cardToAdd));
     setFavorite(true);
   };
-  const removeCardHandler = (cardToRemove) => {
-    dispatch(removeFavorite(cardToRemove));
-    setFavorite(false);
-  };
+  // const removeCardHandler = (cardToRemove) => {
+  //   dispatch(removeFavorite(cardToRemove));
+  //   setFavorite(false);
+  // };
 
   return (
     <>
@@ -90,7 +82,6 @@ export default function Details() {
             <div
               onClick={() => {
                 navigate("/pokemon-listing");
-                
               }}
             >
               <IoChevronBack
