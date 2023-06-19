@@ -71,7 +71,7 @@ export default function App() {
                 className="text-2xl flex mx-10
                  text-slate-800/90 font-bold"
               >
-                Which Pokemon do you want?
+                What are you looking for?
               </label>
             </div>
             <Search pokemonNames={state.pokemon} error={error} />

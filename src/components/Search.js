@@ -132,7 +132,7 @@ const Search = ({ pokemonNames, error, includes }) => {
         />
         <input
           type="search"
-          placeholder="Search Pokemons, Movies, Ability etc."
+          placeholder="Search Pokemon, Movie, Ability etc."
           onChange={handleChange}
           className="border-2 flex flex-wrap absolute focus:ring-2 focus:ring-indigo-300 focus:outline-none caret-slate-400
           placeholder:text-slate-400 placeholder:font-medium block 
