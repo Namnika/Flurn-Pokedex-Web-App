@@ -43,6 +43,7 @@ export default function Details() {
     <>
       <div
         key={location.state.id}
+        style={{ backgroundPositionY: "-8em" }}
         className={`bg-contain bg-indigo-200 opacity-95 bg-no-repeat bg-blend-darken bg-top drop-shadow-2xl bg-fixed 
        h-96 rounded-b-3xl w-full bg-[url(${location.state.img})]`}
       >
