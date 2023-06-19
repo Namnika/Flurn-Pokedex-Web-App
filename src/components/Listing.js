@@ -39,7 +39,7 @@ const Listing = () => {
     }
   };
 
-  // console.log(pokemonAllData);
+  console.log(pokemonAllData);
 
   useEffect(() => {
     setLoading(true);
