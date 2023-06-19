@@ -19,8 +19,7 @@ const Listing = () => {
 
   const [isLoading, setLoading] = useState(false);
 
-  const fetchAbilities = async (e) => {
-    e.preventDefault();
+  const fetchAbilities = async () => {
     const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
     try {
       await sleep(7000);
