@@ -36,7 +36,7 @@ const Listing = () => {
 
         localStorage.setItem("alldata", JSON.stringify(pokemonAllData));
 
-        console.log(pokemonAllData);
+        // console.log(pokemonAllData);
       } catch (error) {
         setError(error.response);
       }

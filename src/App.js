@@ -12,6 +12,7 @@ export default function App() {
 
   const [pokemon, setPokemon] = useState();
   const [error, setError] = useState({});
+  const [pokemonUrls, setPokemonUrls] = useState([]);
 
   const fetchPokemon = async () => {
     const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -23,12 +24,19 @@ export default function App() {
       setState({ pokemon: pokemon.data.results });
       localStorage.setItem("pokemon", JSON.stringify(pokemon.data.results));
       setPokemon(pokemon.data.results);
+      // console.log(pokemon.data.results);
+      const eachurls = await Promise.all(
+        pokemon.data.results.map((url) => axios(url.url))
+      );
+      // console.log(eachurls)
+      setPokemonUrls(eachurls.map((t) => t.data));
     } catch (err) {
       setError(err.message.response);
     }
   };
 
-  console.log(pokemon);
+  // console.log(pokemon);
+  // console.log(pokemonUrls);
   useEffect(() => {
     fetchPokemon();
     if (window.localStorage !== undefined) {
@@ -74,7 +82,7 @@ export default function App() {
                 What are you looking for?
               </label>
             </div>
-            <Search pokemonNames={state.pokemon} error={error} />
+            <Search pokemonNames={pokemonUrls} error={error} />
           </div>
           <div className="absolute opacity-60 h-3/4 w-[56%] bottom-24 z-40 right-0 bg-cover bg-no-repeat bg-right bg-[url('https://o.remove.bg/downloads/24524da7-7575-4d12-8073-c75d96b4547c/Cute-Pikachu-Pokemon-Character-iphone-11-pro-removebg-preview.png')]"></div>
         </div>
