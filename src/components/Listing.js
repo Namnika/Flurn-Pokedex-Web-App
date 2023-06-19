@@ -20,7 +20,7 @@ const Listing = () => {
   const [isLoading, setLoading] = useState(false);
 
   const fetchAbilities = async (e) => {
-    e.preventDefault(
+    e.preventDefault();
     const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
     try {
       await sleep(7000);
@@ -48,7 +48,7 @@ const Listing = () => {
     }, 80000);
 
     return () => {
-      clearInterval(id);
+      clearTimeout(id);
     };
   }, []);
 
@@ -119,7 +119,6 @@ const Listing = () => {
                           types: poke.types
                         }
                       });
-                      
                     }}
                     key={index}
                     className={`cursor-pointer rounded-lg shadow-lg  bg-no-repeat
