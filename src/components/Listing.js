@@ -25,7 +25,7 @@ const Listing = () => {
       await sleep(7000);
       const response = await Promise.all(pokemonData.map((t) => axios(t.url)));
       setPokemonAllData(response.map((res) => res.data));
-      await sleep(7000);
+      console.log(response);
       window.localStorage.setItem(
         "alldata",
         JSON.stringify(response.map((res) => res.data))
