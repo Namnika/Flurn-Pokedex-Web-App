@@ -18,67 +18,56 @@ const Listing = () => {
   // );
 
   const [isLoading, setLoading] = useState(false);
-
-  const fetchAbilities = async () => {
-    const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-    try {
-      await sleep(7000);
-      const response = await Promise.all(pokemonData.map((t) => axios(t.url)));
-      setPokemonAllData(response.map((res) => res.data));
-      console.log(response);
-      window.localStorage.setItem(
-        "alldata",
-        JSON.stringify(response.map((res) => res.data))
-      );
-      console.log(pokemonAllData);
-      window.addEventListener("storage", () => {
-        console.log("Added all pokemon data to localstorage");
-      });
-    } catch (error) {
-      setError(error.response);
-    }
-  };
-
+  const [allData, setAllData] = useState([]);
   console.log(pokemonAllData);
 
   useEffect(() => {
     setLoading(true);
-    const id = setTimeout(() => {
+    setTimeout(() => {
       setLoading(false);
-    }, 80000);
+    }, 8000);
+    const fetchAbilities = async () => {
+      try {
+        const response = await Promise.all(
+          pokemonData.map((t) => axios(t.url))
+        );
+        console.log(response.map((res) => res.data));
+        setPokemonAllData(response.map((res) => res.data));
 
-    return () => {
-      clearTimeout(id);
+        localStorage.setItem("alldata", JSON.stringify(pokemonAllData));
+
+        console.log(pokemonAllData);
+      } catch (error) {
+        setError(error.response);
+      }
     };
-  }, []);
-
-  useEffect(() => {
     fetchAbilities();
-    if (window.localStorage !== undefined) {
+    if (typeof window !== undefined) {
       const data = window.localStorage.getItem("pokemon");
       data !== null ? setPokemonData(JSON.parse(data)) : null;
     }
     //  infinite scroll having bit problems
-    window.addEventListener("scroll", handleInfiniteScroll);
+    // window.addEventListener("scroll", handleInfiniteScroll);
 
     return () => {
-      window.removeEventListener("scroll", handleInfiniteScroll);
+      // window.removeEventListener("scroll", handleInfiniteScroll);
     };
-  }, []);
+  }, [isLoading]);
+  console.log(allData);
 
-  function handleInfiniteScroll() {
-    if (
-      window.innerHeight + document.documentElement.scrollTop !==
-        document.documentElement.offsetHeight || hasMore ? (
-        <BeatLoader />
-      ) : null
-    ) {
-      const newarr = pokemonAllData.slice(0, 10).map((t) => {
-        return t;
-      });
-      // setNewPokemonData((prev) => [...prev, newarr]);
-    }
-  }
+  // function handleInfiniteScroll() {
+  //   if (
+  //     window.innerHeight + document.documentElement.scrollTop !==
+  //       document.documentElement.offsetHeight || hasMore ? (
+  //       <BeatLoader />
+  //     ) : null
+  //   ) {
+  //     const newarr = pokemonAllData.slice(0, 10).map((t) => {
+  //       return t;
+  //     });
+  //     // setNewPokemonData((prev) => [...prev, newarr]);
+  //   }
+  // }
 
   return (
     <>
